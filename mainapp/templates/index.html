@@ -1,0 +1,363 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block body %}
+    <style>
+      .testimony-wrap .user-img {
+          width: 110px;
+          height: 110px;
+          margin: 0 auto;
+          border-radius: 14px;
+          margin-top: -60px;
+      }
+    </style>
+    <section class="home-slider owl-carousel">
+      <div class="slider-item" style="background-image: url('{% static 'images/bg_3.jpg' %}');overflow: scroll;">
+        <div class="overlay"></div>
+        <div class="container">
+          <div class="row slider-text align-items-center">
+            <div class="col-md-7 col-sm-12 ftco-animate">
+              <h1 class="mb-3">Travel Operator Just For You</h1>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="slider-item" style="background-image: url('{% static 'images/grass_mountain.jpg' %}');">
+        <div class="overlay"></div>
+        <div class="container">
+          <div class="row slider-text align-items-center">
+            <div class="col-md-7 col-sm-12 ftco-animate">
+              <h1 class="mb-3">Discover the Heart of Kashmir</h1>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="slider-item" style="background-image: url('{% static 'images/grass_mountain2.jpg' %}');">
+        <div class="overlay"></div>
+        <div class="container">
+          <div class="row slider-text align-items-center">
+            <div class="col-md-7 col-sm-12 ftco-animate">
+              <h1 class="mb-3">Journey Through Kashmir’s Timeless Beauty</h1>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="slider-item" style="background-image: url('{% static 'images/mountain.jpg' %}');overflow: scroll">
+        <div class="overlay"></div>
+        <div class="container">
+          <div class="row slider-text align-items-center">
+            <div class="col-md-7 col-sm-12 ftco-animate">
+              <h1 class="mb-3">Experience the best trip ever
+                               </h1>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      
+    </section>
+    <!-- END slider -->
+
+    <section class="ftco-section testimony-section" style="margin-bottom: 0px;">
+      <div class="container" style="max-width: 90%;">
+        <div class="row justify-content-center mb-5 pb-5">
+          <div class="col-md-7 text-center heading-section ftco-animate">
+            <h2 style="font-weight: 700; color: #2c3e50;">Top Selling Tours in Kashmir</h2>
+          </div>
+        </div>
+        <div class="row">
+          {% for tour in tours %}
+          <div class="col-md-6 col-lg-4 mb-4 d-flex align-items-stretch">
+              <div class="card h-100 shadow-sm border-0">
+                  <!-- Large image at the top of the card -->
+                  <img class="card-img-top img-fluid" src="{% static 'images/tours_img/' %}{{ tour.image.url }}" alt="{{ tour.name }}" style="max-height: 250px; object-fit: cover; margin: 20px;">
+      
+                  <div class="card-body">
+                      <!-- Discount badge -->
+                      {% if tour.discount %}
+                      <span style="font-size: 1rem; padding: 0.5em; transform: rotate(0deg); position: absolute; top: 10px; right: 0px; background-color: #b3343f; color: white;">{{ tour.discount }}% OFF</span>
+                      {% endif %}
+                      
+                      <!-- Tour name as a clickable link -->
+                      <h5 class="card-title font-weight-bold">
+                          <a href="{% url 'tour_detail' tour.tour_id %}" class="text-dark text-decoration-none">
+                              {{ tour.name }}
+                          </a>
+                      </h5>
+      
+                      <!-- Location and type of tour -->
+                      <p class="card-text mb-2">
+                          <strong>Location:</strong> <span class="text-muted">{{ tour.location }}</span>
+                      </p>
+                      <p class="card-text mb-2">
+                          <strong>Type:</strong> <span class="text-muted">{{ tour.get_tour_type_display }}</span>
+                      </p>
+      
+                      <!-- Tour description, truncated if needed -->
+                      <p class="card-text text-muted mb-3">
+                          <strong>Description:</strong> 
+                          <span class="short-desc">{{ tour.tour_descr|slice:":100" }}{% if tour.tour_descr|length > 100 %}...{% endif %}</span>
+                          {% if tour.tour_descr|length > 100 %}
+                          <a href="#" class="read-more text-primary" data-full-desc="{{ tour.tour_descr }}">Read More</a>
+                          {% endif %}
+                      </p>
+      
+                      <!-- Popularity label -->
+                      <p class="card-text mb-2">
+                          <strong>Popular:</strong> <span class="badge badge-success">{{ tour.popular|yesno:"Yes,No" }}</span>
+                      </p>
+      
+                      <!-- Price -->
+                      <p class="card-text mb-2">
+                          <strong>Price:</strong> <del><span class="text-muted">₹{{ tour.price }}</span></del>
+                      </p>
+                      <p class="card-text mb-2" style="font-size: 1.5rem; font-weight: bold; color: #28a745;">
+                          <strong>Offer Price:</strong> <span>₹{{ discounted_price }}</span>
+                      </p>
+                  </div>
+      
+                  <!-- Footer with action buttons -->
+                  <div class="card-footer bg-white border-0 d-flex justify-content-between align-items-center">
+                      <a href="{% url 'tour_detail' tour.tour_id %}" class="btn btn-primary btn-sm">View Details</a>
+                      <span class="text-muted small">#{{ tour.tour_id }}</span>
+                  </div>
+              </div>
+          </div>
+          {% endfor %}
+      </div>
+      
+      
+      
+      </div>
+    </section>
+    
+    
+
+
+
+    
+
+
+  <div style="padding-top:5%;">
+    <div class="container">
+
+    <h3>How to book?</h3>
+    <p><b><p>For security issues, we are asking our customers not to send money or reply to chats different from <b><u>Kashmiradventures@gmail.com, our online support or whatsapp support.</u></b></p>
+            <p>For bookings please visit our <a href="{% url 'tours' %}"><i><u>Tours</u></i></a> page and follow video guide and fill the form at the bottom and we will reply you instantly via email(recommended) provided or from our whatsapp and online support.</p>
+            <p>Each destination has it's own price. We like to listen on the standard and price that our customers like and can afford. Each destination's price will be negotiated depending on standards that customers require and secure payment methods will be provided.</p></b></p>
+      </div>
+  </div>
+
+
+
+    <section class="ftco-section">
+      <div class="container" >
+        <div class="row">
+          <div class="col-lg-3 promo ftco-animate">
+            <a href="#" class="promo-img mb-4" style="background-image: url('{% static 'images/safari.jpg' %}');"></a>
+            <div class="text text-center">
+              <h2>Safari</h2>
+
+            </div>
+          </div>
+          <div class="col-lg-3 promo ftco-animate">
+            <a href="#" class="promo-img mb-4" style="background-image: url({% static 'images/cable_car.jpg' %});"></a>
+            <div class="text text-center">
+              <h2>Adventure</h2>
+  
+            </div>
+          </div>
+          <div class="col-lg-3 promo ftco-animate">
+            <a href="#" class="promo-img mb-4" style="background-image: url({% static 'images/mountain.jpg' %});"></a>
+            <div class="text text-center">
+              <h2>Mountain Tours</h2>
+
+            </div>
+          </div>
+          <div class="col-lg-3 promo ftco-animate">
+            <a href="#" class="promo-img mb-4" style="background-image: url({% static 'images/family.jpg' %});"></a>
+            <div class="text text-center">
+              <h2>Family Tours</h2>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="ftco-section bg-light">
+      <div class="container" style="max-width: 100%;">
+        <div class="row justify-content-center mb-5 pb-5">
+          <div class="col-md-7 text-center heading-section ftco-animate">
+            <h2>Our Services</h2>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6 col-lg-3 d-flex align-self-stretch ftco-animate">
+            <div class="media block-6 services d-block text-center">
+              <div class="d-flex justify-content-center"><div class="icon d-flex justify-content-center mb-3"><span class="align-self-center flaticon-sailboat"></span></div></div>
+              <div class="media-body p-2">
+                <h3 class="heading">Special Activities</h3>
+                <p>We perform special activities such as charity and any activity that the customer rekons.</p>
+              </div>
+            </div>      
+          </div>
+          <div class="col-md-6 col-lg-3 d-flex align-self-stretch ftco-animate">
+            <div class="media block-6 services d-block text-center">
+              <div class="d-flex justify-content-center"><div class="icon d-flex justify-content-center mb-3"><span class="align-self-center flaticon-around"></span></div></div>
+              <div class="media-body p-2">
+                <h3 class="heading">Travel Arrangements</h3>
+                <p>We arrange and assure secured travel to different places within the country.</p>
+              </div>
+            </div>      
+          </div>
+          <div class="col-md-6 col-lg-3 d-flex align-self-stretch ftco-animate">
+            <div class="media block-6 services d-block text-center">
+              <div class="d-flex justify-content-center"><div class="icon d-flex justify-content-center mb-3"><span class="align-self-center flaticon-compass"></span></div></div>
+              <div class="media-body p-2">
+                <h3 class="heading">Private Guide</h3>
+                <p>We provide private guide in all places within the country with high security and standard.</p>
+              </div>
+            </div>    
+          </div>
+
+          <div class="col-md-6 col-lg-3 d-flex align-self-stretch ftco-animate">
+            <div class="media block-6 services d-block text-center">
+              <div class="d-flex justify-content-center"><div class="icon d-flex justify-content-center mb-3"><span class="align-self-center flaticon-map-of-roads"></span></div></div>
+              <div class="media-body p-2">
+                <h3 class="heading">Adventure</h3>
+                <p>We provide adventure activities such as mountain climbing beach tour and safari.</p>
+              </div>
+            </div>      
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <section class="ftco-section testimony-section">
+      <div class="container">
+        <div class="row justify-content-center mb-5 pb-5">
+          <div class="col-md-7 text-center heading-section ftco-animate">
+            <h2>Our Satisfied Guests says</h2>
+          </div>
+        </div>
+        <div class="row ftco-animate">
+          <div class="carousel owl-carousel ftco-owl">
+            <div class="item text-center">
+              <div class="testimony-wrap p-4 pb-5">
+                <div class="user-img mb-4" style="background-image: url({% static 'images/chris.jpg' %})" style="border: 1px solid red;"></div>
+                <div class="text">
+                  <p class="star-rate"><span class="icon-star"></span><span class="icon-star"></span><span class="icon-star"></span><span class="icon-star"></span><span class="icon-star-half-full"></span></p>
+                  <p class="mb-5">Great services, hospitality, support, affordable price and security is one of the best things that I like from Kashmir Adventures.</p>
+                  <p class="name">Chris Barnet</p>
+                  <span class="position">Guests from Australia</span>
+                </div>
+              </div>
+            </div>
+            <div class="item text-center">
+              <div class="testimony-wrap p-4 pb-5">
+                <div class="user-img mb-4" style="background-image: url({% static 'images/anna.jpeg' %})" style="border: 1px solid red;"></div>
+                <div class="text">
+                  <p class="star-rate"><span class="icon-star"></span><span class="icon-star"></span><span class="icon-star"></span><span class="icon-star"></span><span class="icon-star-half-full"></span></p>
+                  <p class="mb-5">I had about the beauty of Zanzibar and saw an ad of Kashmir Adventures and they planned well and I enjoyed it. Thank you Kashmir.</p>
+                  <p class="name">Anna Scorfield</p>
+                  <span class="position">Guests from Italy</span>
+                </div>
+              </div>
+            </div>
+            <div class="item text-center">
+              <div class="testimony-wrap p-4 pb-5">
+                <div class="user-img mb-4" style="background-image: url({% static 'images/dennis.jpg' %})" style="border: 1px solid red;"></div>
+                <div class="text">
+                  <p class="star-rate"><span class="icon-star"></span><span class="icon-star"></span><span class="icon-star"></span><span class="icon-star"></span><span class="icon-star-half-full"></span></p>
+                  <p class="mb-5">I'm a botanist and visited Tanzania to perform my research. Kashmir Adventures arranged the trip and I succeeded in my research.</p>
+                  <p class="name">Dennis Alphonce</p>
+                  <span class="position">Usa</span>
+                </div>
+              </div>
+            </div>
+            <div class="item text-center">
+              <div class="testimony-wrap p-4 pb-5">
+                <div class="user-img mb-4" style="background-image: url({% static 'images/richard.jpeg' %})" style="border: 1px solid red;"></div>
+                <div class="text">
+                  <p class="star-rate"><span class="icon-star"></span><span class="icon-star"></span><span class="icon-star"></span><span class="icon-star"></span><span class="icon-star-half-full"></span></p>
+                  <p class="mb-5">I had a dream of climbing Mount Kilimanjaro and I was recommended to Kashmir Adventures by my friend and the trek was amazing.</p>
+                  <p class="name">Richard Paul</p>
+                  <span class="position">Guests from Britain</span>
+                </div>
+              </div>
+            </div>
+            <!-- {% if reviews %}
+              {% for review in reviews %}
+              <div class="item text-center">
+                  <div class="testimony-wrap p-4 pb-5">
+                      <div class="user-img mb-4" style="background-image: url({% static 'images/dennis.jpg' %});"></div>
+                      <div class="text">
+                          <p class="star-rate">
+                              {% for star in "12345"|slice:review.rating %}
+                                  <span class="icon-star"></span>
+                              {% endfor %}
+                              {% if review.rating < 5 %}
+                                  <span class="icon-star-half-full"></span>
+                              {% endif %}
+                          </p>
+                          <p class="mb-5">{{ review.text }}</p>
+                          <p class="name">{{ review.author_name }}</p>
+                          <span class="position">{{ review.relative_time_description }}</span>
+                      </div>
+                  </div>
+              </div>
+              {% endfor %}
+          {% else %}
+              <p>No reviews available.</p>
+          {% endif %} -->
+          </div>
+        </div>  
+      </div>
+    </section>
+
+    <section class="ftco-section review-section">
+      <div class="container">
+        <div class="row justify-content-center mb-5 pb-5">
+          <div class="col-md-7 text-center heading-section ftco-animate">
+            <h2>Share Your Experience</h2>
+          </div>
+        </div>
+        <div class="row ftco-animate">
+          <div class="col-md-12">
+            <form action="#" method="post" class="bg-light p-5 contact-form">
+              {% csrf_token %}
+              <div class="form-group">
+                <input type="text" class="form-control" placeholder="Your Name">
+              </div>
+              <div class="form-group">
+                <input type="email" class="form-control" placeholder="Your Email">
+              </div>
+              <div class="form-group">
+                <input type="text" class="form-control" placeholder="Your Country">
+              </div>
+              <div class="form-group">
+                <textarea name="" id="" cols="30" rows="7" class="form-control" placeholder="Your Review"></textarea>
+              </div>
+              <div class="form-group">
+                <label class="mr-3">Rate Your Experience: </label>
+                <span class="icon-star"></span>
+                <span class="icon-star"></span>
+                <span class="icon-star"></span>
+                <span class="icon-star"></span>
+                <span class="icon-star-half-full"></span>
+              </div>
+              <div class="form-group">
+                <input type="submit" value="Submit Review" class="btn btn-primary py-3 px-5">
+              </div>
+            </form>
+          </div>
+        </div>  
+      </div>
+    </section>
+        
+
+
+
+
+{% endblock body %}

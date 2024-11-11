@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+Tours
+{% endblock title %}
+{% block body %}
+  
+    <section class="home-slider owl-carousel">
+      <div class="slider-item" style="background-image: url('{% static 'images/bg_2.jpg' %}');overflow: scroll" data-stellar-background-ratio="0.5">
+        <div class="overlay"></div>
+        
+        <div class="container">
+          <div class="row slider-text align-items-center">
+            <div class="col-md-7 col-sm-12 ftco-animate">
+              <h1 class="mb-3">Tours Destination</h1>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div style="padding-top:4%;">
+      <div class="container">
+        <h3>Available Packages</h3>
+        <div class="row">
+            <p><b><p>Pick your Kashmiri adventure! See alpine lakes, mountains and much more. Then check it off your bucket list.</b></p>
+
+        </div>
+      </div>
+    </div>
+      <div class="container">
+          {% for tour in tours %}
+              <hr>
+              <div class="row">
+                  <div class="col-md-3">
+                      <img src="{% static 'images/tours_img/' %}{{ tour.image.url }}" style="max-height: 250px;" class="img-fluid rounded-start" alt="{{ tour.name }}">
+                  </div>
+                  <div class="col-md-9">
+                      <div class="card mb-4 shadow-sm">
+                          <div class="card-body">
+                            <a href="{% url 'tour_detail' tour.tour_id %}" class="text-dark text-decoration-none">
+                              <h5 class="card-title">{{ tour.name }}</h5>
+                            </a>
+                              <p class="card-text">
+                                  <strong><i class="bi bi-pencil"></i> Description: </strong>
+                                  {{ tour.tour_descr|truncatewords:20 }}
+                              </p>
+                              <p class="card-text">
+                                  <strong><i class="bi bi-geo-alt"></i> Location: </strong>
+                                  <small class="text-muted">{{ tour.location }}</small>
+                              </p>
+                              <p class="card-text">
+                                  <strong><i class="bi bi-tag"></i> Type: </strong>
+                                  {{ tour.get_tour_type_display }}
+                              </p>
+                              {% if tour.popular %}
+                                  <span ><i class="bi bi-star-fill"></i> Popular</span>
+                              {% endif %}
+
+                              <p class="card-text mb-2">
+                                <strong>Price:</strong> <del><span class="text-muted">₹{{ tour.price }}</span></del>
+                            </p>
+                            <p class="card-text mb-2" style="font-size: 1rem; font-weight: bold; color: #28a745;">
+                                <strong>Offer Price:</strong> <span>₹{{ discounted_price }}</span>
+                            </p>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          {% empty %}
+              <p>No tours available.</p>
+          {% endfor %}
+      </div>
+  
+
+{% endblock body %}

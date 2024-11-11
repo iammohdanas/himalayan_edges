@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Messages{% endblock title %}  
+{% block body %}
+<h2>All Messages</h2>
+<table class="table" style="height: 30rem; overflow-y: auto; padding-left: 10px; padding-right: 10px;">
+    <thead>
+        <tr>
+            <th>Full Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Subject</th>
+            <th>Message</th>
+            <th>Seen</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for message in messages %}
+        <tr>
+            <td>{{ message.fullname }}</td>
+            <td>{{ message.email }}</td>
+            <td>{{ message.phone }}</td>
+            <td>{{ message.subject }}</td>
+            <td>{{ message.message }}</td>
+            <td>{% if message.seen %} Seen {% else %} Unseen {% endif %}</td>
+            <td>
+                {% if not message.seen %}
+                <a href="{% url 'mark_as_seen' message.id %}" class="btn btn-success">Mark as Seen</a>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+  {% endblock body %}

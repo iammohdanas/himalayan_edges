@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Payment Page{% endblock title %}
+
+{% block body %}
+<div class="container mt-5" style="min-height: 500px; padding-top: 8%;">
+    <h2 class="text-center">Payment Options</h2>
+
+    {% for tour in tours %}
+        <div class="card mb-4">
+            <div class="card-body">
+                <div class="row mt-4">
+                
+                
+               
+                    <!-- Online Payment Column -->
+                    <div class="col-md-6">
+                        <h4>Online Payment</h4><br>
+                        <h3 class="card-title">{{ tour.name }}</h3>
+                        <div class="container mt-3">
+                            <div class="card p-3">
+                                <div class="row">
+                                    <div class="col-md-6 col-lg-3 mb-2">
+                                        <p><strong>Location:</strong> {{ tour.location }}</p>
+                                    </div>
+                                    <div class="col-md-6 col-lg-3 mb-2">
+                                        <p><strong>Tour Type:</strong> {{ tour.get_tour_type_display }}</p>
+                                    </div>
+                                    <div class="col-md-6 col-lg-3 mb-2">
+                                        <p><strong>Duration:</strong> {{ tour.tourdays }} days</p>
+                                    </div>
+                                    <div class="col-md-6 col-lg-3 mb-2">
+                                        <p><strong>Price:</strong> ${{ tour.price }}</p>
+                                    </div>
+                                    {% if tour.discount %}
+                                        <div class="col-md-6 col-lg-3 mb-2">
+                                            <p><strong>Discount:</strong> {{ tour.discount }}%</p>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <p>Pay online to confirm your booking for <strong>{{ tour.name }}</strong>.</p>
+                        <button class="btn btn-primary" style="background-color: #1717c9; border: 1px solid white; border-radius: 10px; color: white; transition: color 0.3s;" onmouseover="this.style.color='darkgray'" onmouseout="this.style.color='white'">Proceed to Online Payment</button>
+                    </div>
+
+                    <!-- Offline Payment Column -->
+                    <div class="col-md-6">
+                        <h4>Offline Payment</h4><br>
+                        <p>You can make an offline payment by scanning the QR code below and sharing the screenshot with us. For more assistance, contact our agent: <strong>{{ tour.agent_name }}</strong>.</p>
+                        <img src="{% static 'images/payment/qr_tour_pay_1.jpeg' %}" alt="QR Code for Offline Payment" class="img-fluid">
+                        <address class="mt-3">
+                            <strong>Name :</strong> &nbsp; Irshad Ahmad Sheikh <br>
+
+                            <strong>Our Address:</strong><br>
+                            Kashmir, J&K, India<br>
+                            Kashmir<br>
+                            Phone: +91-9906568655
+                        </address>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+
+{% endblock body %}

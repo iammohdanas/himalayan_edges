@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+Create Tour
+{% endblock title %}
+{% block body %}
+<div class="container mt-5" style="padding-top:5%; width: 80%;">
+    <h2>Create a New Tour</h2>
+    <form method="POST" action="{% url 'create_tour' %}" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div class="mb-3">
+            <label for="name" class="form-label">Tour Name</label>
+            <input type="text" class="form-control" id="name" name="name" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="agent_name" class="form-label">Agent Name</label>
+            <select class="form-select" id="agent_name" name="agent_name" required>
+                <option value="">Select an Agent</option>
+                {% for agent in agents %}
+                    <option value="{{ agent.id }}">{{ agent.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="location" class="form-label">Location</label>
+            <input type="text" class="form-control" id="location" name="location" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="tour_type" class="form-label">Tour Type</label>
+            <select class="form-select" id="tour_type" name="tour_type" required>
+                <option value="">Select Tour Type</option>
+                <option value="adventure">Adventure</option>
+                <option value="cultural">Cultural</option>
+                <option value="beach">Beach</option>
+                <option value="featured">Featured</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="tour_descr" class="form-label">Description</label>
+            <textarea class="form-control" id="tour_descr" name="tour_descr" rows="4"></textarea>
+        </div>
+
+        <div class="mb-3">
+            <label for="summary" class="form-label">Summary</label>
+            <textarea class="form-control" id="summary" name="summary" rows="3"></textarea>
+        </div>
+
+        <div class="mb-3">
+            <label for="popular" class="form-check-label">Popular</label>
+            <input type="checkbox" id="popular" name="popular" class="form-check-input">
+        </div>
+
+        <div class="mb-3">
+            <label for="rating" class="form-label">Rating</label>
+            <input type="text" class="form-control" id="rating" name="rating" placeholder="e.g., 4.5" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="price" class="form-label">Price</label>
+            <input type="number" class="form-control" id="price" name="price" step="0.01" placeholder="e.g., 299.99" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="discount" class="form-label">Discount (%)</label>
+            <input type="number" class="form-control" id="discount" name="discount" step="0.01" placeholder="e.g., 10.00" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="daysnights" class="form-label">Days/Nights</label>
+            <input type="text" class="form-control" id="daysnights" name="daysnights" placeholder="e.g., 5 Days/4 Nights" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="image" class="form-label">Upload Main Image</label>
+            <input type="file" class="form-control" id="image" name="image" accept="image/*" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="image1" class="form-label">Upload Image 1</label>
+            <input type="file" class="form-control" id="image1" name="image1" accept="image/*">
+        </div>
+
+        <div class="mb-3">
+            <label for="image2" class="form-label">Upload Image 2</label>
+            <input type="file" class="form-control" id="image2" name="image2" accept="image/*">
+        </div>
+
+        <div class="mb-3">
+            <label for="image3" class="form-label">Upload Image 3</label>
+            <input type="file" class="form-control" id="image3" name="image3" accept="image/*">
+        </div>
+
+        <div class="mb-3">
+            <label for="image4" class="form-label">Upload Image 4</label>
+            <input type="file" class="form-control" id="image4" name="image4" accept="image/*">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Create Tour</button>
+    </form>
+</div>
+{% endblock body %}

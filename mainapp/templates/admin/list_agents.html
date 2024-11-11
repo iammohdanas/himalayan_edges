@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+Tours
+{% endblock title %}
+{% block body %}
+<div class="container mt-5" style="padding-top: 5%;padding-bottom: 5%; ">
+    <h1 class="text-center mb-4">Available Agents</h1>
+    {% if agents %}
+        <div class="list-group">
+            {% for agent in agents %}
+                <div class="list-group-item">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h5 class="mb-1"><strong>Name:</strong> {{ agent.name }}</h5>
+                            <p class="mb-0"><strong>Email:</strong> {{ agent.email }}</p>
+                            <p class="mb-0"><strong>Phone:</strong> {{ agent.phone_number }}</p>
+                        </div>
+                        <form method="post" action="{% url 'delete_agent' agent.id %}" style="display: inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                        </form>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="text-center mt-4">No agents available.</p>
+    {% endif %}
+</div>
+{% endblock body %}
+
