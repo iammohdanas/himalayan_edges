@@ -84,6 +84,7 @@ class Tour(models.Model):
     image4 = models.ImageField(upload_to='static/images/tours_img', null=True)
     name = models.CharField(max_length=100)
     agent_name = models.CharField(max_length=100,null=True)
+    video_link = models.CharField(max_length=200, null=True)
     location = models.CharField(max_length=100)
     tour_type = models.CharField(choices=TOUR_CHOICES, max_length=20)
     slug = models.SlugField(max_length=250, blank=True, null=True)
@@ -136,3 +137,27 @@ class Message(models.Model):
     def __str__(self):
         return f"Message from {self.fullname} - {self.subject}"
     
+
+class Review(models.Model):
+    name = models.CharField(max_length=100)
+    email = models.EmailField()
+    country = models.CharField(max_length=100)
+    review_text = models.TextField()
+    rating = models.IntegerField()  # Assuming rating will be a number (1-5)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.name} - {self.rating} stars"
+    
+
+class Orders(models.Model):
+    order_id= models.AutoField(primary_key=True)
+    items_json= models.CharField(max_length=5000)
+    amount=models.IntegerField(default=0)
+    name=models.CharField(max_length=90)
+    email=models.CharField(max_length=111)
+    address=models.CharField(max_length=111)
+    city=models.CharField(max_length=111)
+    state=models.CharField(max_length=111)
+    zip_code=models.CharField(max_length=111)
+    phone=models.CharField(max_length=111, default="")

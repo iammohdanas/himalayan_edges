@@ -1,0 +1,788 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up / Sign In</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- You can add your CSS here or link to an external file -->
+    <style>
+        @import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
+    
+        * {
+            box-sizing: border-box;
+        }
+    
+        body {
+            background: #f6f5f7;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            font-family: 'Montserrat', sans-serif;
+            height: 100vh;
+            margin: -20px 0 50px;
+        }
+    
+        h1 {
+            font-weight: bold;
+            margin: 0;
+        }
+    
+        h2 {
+            text-align: center;
+        }
+    
+        p {
+            font-size: 14px;
+            font-weight: 100;
+            line-height: 20px;
+            letter-spacing: 0.5px;
+            margin: 20px 0 30px;
+        }
+    
+        span {
+            font-size: 12px;
+        }
+    
+        a {
+            color: #333;
+            font-size: 14px;
+            text-decoration: none;
+            margin: 15px 0;
+        }
+    
+        button {
+            border-radius: 20px;
+            border: 1px solid #FF4B2B;
+            background-color: #FF4B2B;
+            color: #FFFFFF;
+            font-size: 12px;
+            font-weight: bold;
+            padding: 12px 45px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: transform 80ms ease-in;
+        }
+    
+        button:active {
+            transform: scale(0.95);
+        }
+    
+        button:focus {
+            outline: none;
+        }
+    
+        button.ghost {
+            background-color: transparent;
+            border-color: #FFFFFF;
+        }
+    
+        form {
+            background-color: #FFFFFF;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            padding: 0 50px;
+            height: 100%;
+            text-align: center;
+        }
+    
+        input {
+            background-color: #eee;
+            border: none;
+            padding: 12px 15px;
+            margin: 8px 0;
+            width: 100%;
+            border-bottom: 2px solid #FF4B2B; /* Active line for input fields */
+        }
+    
+        .container {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+            position: relative;
+            overflow: hidden;
+            width: 768px;
+            max-width: 100%;
+            min-height: 480px;
+        }
+    
+        .form-container {
+            position: absolute;
+            top: 0;
+            height: 100%;
+            transition: all 0.6s ease-in-out;
+        }
+    
+        .sign-in-container {
+            left: 0;
+            width: 50%;
+            z-index: 2;
+        }
+    
+        .container.right-panel-active .sign-in-container {
+            transform: translateX(100%);
+        }
+    
+        .sign-up-container {
+            left: 0;
+            width: 50%;
+            height: auto;
+            opacity: 0;
+            z-index: 1;
+        }
+    
+        .container.right-panel-active .sign-up-container {
+            transform: translateX(100%);
+            opacity: 1;
+            z-index: 5;
+            animation: show 0.6s;
+        }
+    
+        @keyframes show {
+            0%, 49.99% {
+                opacity: 0;
+                z-index: 1;
+            }
+    
+            50%, 100% {
+                opacity: 1;
+                z-index: 5;
+            }
+        }
+    
+        .overlay-container {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 50%;
+            height: 100%;
+            overflow: hidden;
+            transition: transform 0.6s ease-in-out;
+            z-index: 100;
+        }
+    
+        .container.right-panel-active .overlay-container {
+            transform: translateX(-100%);
+        }
+    
+        .overlay {
+            background: #FF416C;
+            background: -webkit-linear-gradient(to right, #FF4B2B, #FF416C);
+            background: linear-gradient(to right, #FF4B2B, #FF416C);
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: 0 0;
+            color: #FFFFFF;
+            position: relative;
+            left: -100%;
+            height: 100%;
+            width: 200%;
+            transform: translateX(0);
+            transition: transform 0.6s ease-in-out;
+            z-index: 200;
+        }
+    
+        .container.right-panel-active .overlay {
+            transform: translateX(50%);
+        }
+    
+        .overlay-panel {
+            position: absolute;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            padding: 0 40px;
+            text-align: center;
+            top: 0;
+            height: 100%;
+            width: 50%;
+            transform: translateX(0);
+            transition: transform 0.6s ease-in-out;
+        }
+    
+        .overlay-left {
+            transform: translateX(-20%);
+        }
+    
+        .container.right-panel-active .overlay-left {
+            transform: translateX(0);
+        }
+    
+        .overlay-right {
+            right: 0;
+            transform: translateX(0);
+        }
+    
+        .container.right-panel-active .overlay-right {
+            transform: translateX(20%);
+        }
+    
+        .social-container {
+            margin: 20px 0;
+        }
+    
+        .social-container a {
+            border: 1px solid #DDDDDD;
+            border-radius: 50%;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 5px;
+            height: 40px;
+            width: 40px;
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+    
+        .social-container a:hover {
+            transform: translateY(-3px) scale(1.1);
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2), 0 0 15px rgba(0, 150, 255, 0.6);
+        }
+
+        .forgot-password-container h1 {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #FF4B2B;
+        }
+
+        .forgot-password-container button {
+            padding: 12px 45px;
+            border-radius: 20px;
+            background-color: #FF4B2B;
+            color: white;
+            border: 1px solid #FF4B2B;
+            font-weight: bold;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .forgot-password-container button:active {
+            transform: scale(0.95);
+        }
+
+        .forgot-password-container button:focus {
+            outline: none;
+        }
+
+        /* Ensure inputs are styled consistently */
+        .forgot-password-container input[type="text"],
+        .forgot-password-container input[type="email"],
+        .forgot-password-container input[type="number"] {
+            background-color: #eee;
+            border-bottom: 2px solid #FF4B2B; /* Same active input style */
+        }
+
+
+       /* Transition for Sign In container to move to the back */
+        .container.forgot-password-active .sign-in-container {
+            transform: translateX(-100%); /* Move sign-in container out of view */
+            opacity: 0; /* Hide the sign-in container */
+            z-index: 1; /* Move sign-in container to the back */
+            transition: transform 0.8s ease-in-out, opacity 0.8s ease-in-out; /* Smooth transition */
+        }
+       
+        /* Transition for Forgot Password container */
+        .forgot-password-container {
+            box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+    position: absolute;
+    transition: all 0.8s ease-in-out;
+    height: auto;
+    opacity: 0; /* To hide initially, if needed */
+    z-index: 1;
+    padding: 20px;
+    box-sizing: border-box;
+    background: #fff;
+    border-radius: 10px;
+    width: 50%; /* Set the width to 50% of the parent container */
+    
+    /* Flexbox properties for centering content */
+    display: flex;
+    flex-direction: column; /* Adjust this if needed */
+    align-items: center; /* Centers content horizontally */
+    justify-content: center; /* Centers content vertically */
+}
+
+        /* When the Forgot Password container is active */
+        .container.forgot-password-active .forgot-password-container {
+            transform: translateX(-50%) translateY(0); /* Slide into view */
+            opacity: 1; /* Fade in */
+            z-index: 5; /* Bring it to the front */
+        }
+
+        /* Optional keyframe for further control */
+        @keyframes show {
+            0%, 49.99% {
+                opacity: 0;
+                z-index: 1;
+            }
+
+            50%, 100% {
+                opacity: 1;
+                z-index: 5;
+            }
+        }
+    </style>
+    
+    <!-- Add this in the head section to load Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+     <!-- Bootstrap CSS -->
+     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container" id="container">
+        <div class="alert alert-danger">
+            <strong>Oops!</strong> befor Test error message.
+        </div>
+        {% include '_sys_notifications.html' %}
+        <div class="alert alert-danger">
+            <strong>Oops!</strong> after Test error message.
+        </div>
+        <!-- Sign Up Form -->
+        <div class="form-container sign-up-container">
+            <form method="POST" action="{% url 'register' %}">
+                {% csrf_token %}
+                <h1>Create Account</h1>
+                <div class="social-container">
+                    <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
+                    <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+                <span>or use your email for registration</span>
+                <div class="overflow-auto p-3 border" style="max-height: 300px; max-width: 400px;">
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-user"></i></span>
+                        </div>
+                        <input type="text" class="form-control" placeholder="First Name" name="first_name" />
+                    </div>
+                
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-user"></i></span>
+                        </div>
+                        <input type="text" class="form-control" placeholder="Last Name" name="last_name" />
+                    </div>
+                
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-user-circle"></i></span>
+                        </div>
+                        <input type="text" class="form-control" placeholder="User Name" name="username" />
+                    </div>
+                
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                        </div>
+                        <input type="number" class="form-control" placeholder="Mobile Number" name="mobile_no" id="mobileNo" />
+                    </div>
+                    <div class="input-group mb-2 d-flex justify-content-center">
+                        <button type="button" onclick="sendOTP('verification')">Send OTP</button>
+                    </div>
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                        </div>
+                        <input type="email" class="form-control" placeholder="Email" name="email" id="email" />
+                    </div>
+                    
+                    <!-- OTP Section -->
+                    <div id="otpSection" style="display: none;">
+                        <div class="input-group mb-2">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-key"></i></span>
+                            </div>
+                            <input type="text" class="form-control" placeholder="Enter OTP" name="otp" id="otp" />
+                        </div>
+                        <button type="button" onclick="verifyOTP()">Verify OTP</button>
+                    </div>
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                        </div>
+                        <input type="password" class="form-control" placeholder="Password" name="password" id="toggleNewPassword" />
+                        <div class="input-group-append toggle-password" data-target="#toggleNewPassword">
+                            <button type="button" id="toggleNewPasswordButton" class="btn">
+                                <i id="eyeIconNew" class="fas fa-eye eye-icon"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Confirm Password Field with Toggle -->
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                        </div>
+                        <input type="password" class="form-control" placeholder="Confirm Password" name="confirm_password" id="confirmPassword" />
+                        <div class="input-group-append toggle-password" data-target="#confirmPassword">
+                            <button type="button" id="toggleConfirmPasswordButton" class="btn">
+                                <i id="eyeIconConfirm" class="fas fa-eye eye-icon"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+
+                    <div class="form-check mb-3 d-flex align-items-center">
+                        <a href="#" class="form-check-label ml-2 mb-2" onclick="document.getElementById('termsCheck').click(); return false;">Terms & Conditions</a>
+                        <input type="checkbox" class="form-check-input ml-1" name="terms_accepted" id="termsCheck" />
+                    </div>
+                    <button type="submit">Sign Up</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Forgot Password Form -->
+        <div class="container form-container forgot-password-container">
+            <form method="POST" action="{% url 'forgot_password' %}">
+                {% csrf_token %}
+                <h1 class="text-center">Forgot Password</h1>
+                <span class="d-block text-center mb-3">Choose how you'd like to receive the OTP</span>
+
+                <!-- Radio Buttons for Mobile or Email OTP -->
+                <div class="mb-3">
+                    <label for="otp-method" class="form-label">Select OTP Method:</label>
+                    <div class="d-flex gap-12 mt-2">
+                        <div class="form-check">
+                            <input type="radio" id="otp-mobile" name="otp-method" value="mobile" onclick="toggleOTPFields()" class="form-check-input ml-4" />
+                            <label for="otp-mobile" class="form-check-label ml-0">Mobile</label>
+                        </div>
+                        <div class="form-check">
+                            <input type="radio" id="otp-email" name="otp-method" value="email" onclick="toggleOTPFields()" class="form-check-input ml-4" />
+                            <label for="otp-email" class="form-check-label ml-0">Email</label>
+                        </div>
+                    </div>
+                </div>
+                
+                
+
+                <!-- Input Fields for Mobile Number or Email based on OTP Method -->
+                <div class="input-group mb-3" id="otpMobileField" style="display: none;">
+                    <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                    <input type="number" class="form-control" placeholder="Enter Mobile Number" id="mobileNoForgot" name="mobile_no" required />
+                </div>
+
+                <div class="input-group mb-3" id="otpEmailField" style="display: none;">
+                    <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                    <input type="email" class="form-control" placeholder="Enter Email" id="emailForgot" name="email" required />
+                </div>
+
+                <div class="input-group mb-3 d-flex justify-content-center">
+                    <button type="button" onclick="sendOTP('forgotPassword')" class="btn btn-primary">Send OTP</button>
+                </div>
+
+                <!-- OTP Verification Section -->
+                <div id="forgotOtpSection" style="display: none;">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text"><i class="fas fa-key"></i></span>
+                        <input type="text" class="form-control" placeholder="Enter OTP" id="forgotOtpInput" required />
+                    </div>
+                    <button type="button" onclick="verifyForgotPasswordOTP()" class="btn btn-success w-100">Verify OTP</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Reset Password Form -->
+        <div class="form-container reset-password-container">
+            {% if user_id %}
+                <form method="POST" action="{% url 'reset_password' user_id=user.id %}">
+                    {% csrf_token %}
+                    <h1>Reset Password</h1>
+
+                    <!-- Password Field with Toggle -->
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                        </div>
+                        <input type="password" class="form-control" placeholder="Password" name="reset_password" id="reset_password" />
+                        <div class="input-group-append toggle-password" data-target="#reset_password">
+                            <button type="button" id="togglereset_passwordButton" class="btn">
+                                <i id="eyeIconreset_password" class="fas fa-eye eye-icon"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Confirm Password Field with Toggle -->
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                        </div>
+                        <input type="password" class="form-control" placeholder="Confirm Password" name="reset_password_confirm_password" id="reset_password_confirm_password" />
+                        <div class="input-group-append toggle-password" data-target="#reset_password_confirm_password">
+                            <button type="button" id="togglereset_password_confirm_passwordButton" class="btn">
+                                <i id="eyeIconreset_password_conf_pass" class="fas fa-eye eye-icon"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="input-group mb-2 d-flex justify-content-center">
+                        <button type="submit">Reset Password</button>
+                    </div>
+                </form>
+                {% else %}
+                    <p>User ID is required to reset the password.</p>
+                {% endif %}
+        </div>
+
+        <!-- Sign In Form -->
+        <div class="form-container sign-in-container">
+            <form method="POST" action="{% url 'login' %}">
+                {% csrf_token %}
+                <h1>Sign In</h1>
+                <div class="social-container">
+                    <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
+                    <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+                <span>or use your account</span>
+                <div class="mb-3">
+                    <div class="mb-3">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                            </div>
+                            <input type="text" class="form-control" placeholder="Username or Email" name="username_or_email" aria-label="Username or Email" required />
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <div class="input-group mb-2">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                            </div>
+                            <input type="password" class="form-control" placeholder="Password" name="login_password" id="login_password" />
+                            <!-- Updated data-target to match input field ID -->
+                            <div class="input-group-append toggle-password" data-target="#login_password">
+                                <!-- Added 'type="button"' to prevent form submission -->
+                                <button type="button" id="togglelogin_passwordButton" class="btn">
+                                    <!-- Added 'eye-icon' class -->
+                                    <i id="eyeIconlogin_password" class="fas fa-eye eye-icon"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mb-3">
+                    <form method="POST" action="{% url 'forgot_password' %}" class="d-inline">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-link p-0 m-0 align-baseline text-decoration-none text-primary forgot-password-btn" id="toggle-forgot-password">
+                            Forgot your password?
+                        </button>
+                    </form>
+                    <div class="mt-3">
+                        <button type="submit">Sign In</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        
+        <!-- OTP Section (for both Sign-In and Sign-Up) -->
+        <div class="otp-section">
+        {% if user_id %}
+                <form method="POST" action="{% url 'verify_otp' user_id=user.id %}">
+                    {% csrf_token %}
+                    <h1>Verify OTP</h1>
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-key"></i></span>
+                        </div>
+                        <input type="text" class="form-control" placeholder="Enter OTP" id="otpInput" />
+                    </div>
+                    <button type="button" class="btn btn-primary w-100" onclick="verifyOTP()">Verify OTP</button>
+                </form>
+        {% else %}
+            <p>User ID is required to reset the password.</p>
+        {% endif %}
+        </div>
+
+        <!-- Overlay Section -->
+        <div class="overlay-container">
+            <div class="overlay">
+                <!-- Sign In Overlay Panel -->
+                <div class="overlay-panel overlay-left">
+                    <h1>Welcome Back!</h1>
+                    <p>To keep connected with us please login with your personal info</p>
+                    <button class="ghost" id="signIn">Sign In</button>
+                </div>
+
+                <!-- Sign Up Overlay Panel -->
+                <div class="overlay-panel overlay-right">
+                    <h1>Hello, Friend!</h1>
+                    <p>Enter your personal details and start your journey with us</p>
+                    <button class="ghost" id="signUp">Sign Up</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Section -->
+    <footer>
+    </footer>
+    
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <!-- You can add any necessary JavaScript here -->
+
+<!-- Add Bootstrap JS CDN -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+const signUpButton = document.getElementById('signUp');
+const signInButton = document.getElementById('signIn');
+const forgetButton = document.getElementById('forget_password');
+const container = document.getElementById('container');
+
+signUpButton.addEventListener('click', () => {
+	container.classList.add("right-panel-active");
+});
+
+signInButton.addEventListener('click', () => {
+	container.classList.remove("right-panel-active");
+});
+
+document.querySelector('.forgot-password-btn').addEventListener('click', function(event) {
+    event.preventDefault(); // Prevent form submission
+    // Toggle the class to activate the Forgot Password container
+    document.querySelector('.container').classList.add('forgot-password-active');
+});
+</script>
+<script>
+    function toggleOTPFields() {
+    const otpMethod = document.querySelector('input[name="otp-method"]:checked').value;
+    
+    if (otpMethod === 'mobile') {
+        document.getElementById('otpMobileField').style.display = 'block';  // Show mobile input
+        document.getElementById('otpEmailField').style.display = 'none';   // Hide email input
+    } else if (otpMethod === 'email') {
+        document.getElementById('otpMobileField').style.display = 'none';   // Hide mobile input
+        document.getElementById('otpEmailField').style.display = 'block';  // Show email input
+    }
+}
+
+// Add event listeners to radio buttons
+document.querySelectorAll('input[name="otp-method"]').forEach(function(radioButton) {
+    radioButton.addEventListener('change', toggleOTPFields);
+});
+
+</script>
+<script>
+     // Generic function to toggle password visibility
+     function togglePasswordVisibility(toggleElement) {
+        const passwordField = document.querySelector(toggleElement.getAttribute('data-target'));
+        const eyeIcon = toggleElement.querySelector('.eye-icon');
+        
+        if (passwordField.type === 'password') {
+            passwordField.type = 'text';
+            eyeIcon.classList.remove('fa-eye');
+            eyeIcon.classList.add('fa-eye-slash');
+        } else {
+            passwordField.type = 'password';
+            eyeIcon.classList.remove('fa-eye-slash');
+            eyeIcon.classList.add('fa-eye');
+        }
+    }
+
+    // Adding event listeners to toggle buttons for both password fields
+    document.querySelectorAll('.toggle-password').forEach(function(toggleElement) {
+        toggleElement.addEventListener('click', function() {
+            togglePasswordVisibility(toggleElement);
+        });
+    });
+</script>
+<script>
+    // Generic function to send OTP
+    function sendOTP(type) {
+        let data;
+        let url;
+
+        if (type === 'verification') {
+            // For mobile number verification
+            const mobileNo = document.getElementById('mobileNo').value;
+            if (mobileNo) {
+                data = { mobile_no: mobileNo };
+                url = '/send-otp-mobile/';  // Backend endpoint for mobile OTP
+            } else {
+                alert("Please enter a valid mobile number.");
+                return;
+            }
+        } else if (type === 'forgotPassword') {
+            // For Forgot Password (mobile or email)
+            const email = document.getElementById('email').value;
+            const mobileNo = document.getElementById('mobileNo').value;
+
+            if (email || mobileNo) {
+                data = { mobile_no: mobileNo, email: email };
+                url = mobileNo ? '/send-otp-mobile/' : '/send-otp-email/';  // Select endpoint based on input
+            } else {
+                alert("Please enter a valid mobile number or email.");
+                return;
+            }
+        } else {
+            alert("Invalid type.");
+            return;
+        }
+
+        // Send OTP via Fetch API to the backend
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        })
+        .then(response => response.json())
+        .then(responseData => {
+            if (responseData.success) {
+                document.getElementById('otpSection').style.display = 'block';
+                alert("OTP has been sent to your mobile/email.");
+            } else {
+                alert("Error sending OTP. Please try again.");
+            }
+        })
+        .catch(error => {
+            alert("Error with the OTP request. Please try again.");
+            console.error('Error:', error);
+        });
+    }
+
+      // Generic OTP verification function
+    function verifyOTP(otpFieldId, endpoint) {
+        const otp = document.getElementById(otpFieldId).value;
+        const data = { otp: otp };
+
+        fetch(endpoint, { // Backend endpoint to verify OTP
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        })
+        .then(response => response.json())
+        .then(responseData => {
+            if (responseData.success) {
+                alert("OTP verified successfully!");
+                // Continue with next steps (e.g., reset password, proceed to next form step)
+            } else {
+                alert("Invalid OTP. Please try again.");
+            }
+        })
+        .catch(error => {
+            alert("Error during OTP verification. Please try again.");
+            console.error('Error:', error);
+        });
+    }
+
+    // Call the generic function for different OTP verification scenarios
+    function verifyForgotPasswordOTP() {
+        verifyOTP('forgotOtpInput', '/verify-forgot-password-otp/');
+    }
+
+    function verifySignUpOTP() {
+        verifyOTP('otpInput', '/verify-signup-otp/');
+    }
+</script>
+</body>
+</html>

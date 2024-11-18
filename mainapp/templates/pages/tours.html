@@ -27,49 +27,53 @@ Tours
         </div>
       </div>
     </div>
-      <div class="container">
-          {% for tour in tours %}
-              <hr>
-              <div class="row">
-                  <div class="col-md-3">
-                      <img src="{% static 'images/tours_img/' %}{{ tour.image.url }}" style="max-height: 250px;" class="img-fluid rounded-start" alt="{{ tour.name }}">
-                  </div>
-                  <div class="col-md-9">
-                      <div class="card mb-4 shadow-sm">
-                          <div class="card-body">
-                            <a href="{% url 'tour_detail' tour.tour_id %}" class="text-dark text-decoration-none">
-                              <h5 class="card-title">{{ tour.name }}</h5>
-                            </a>
-                              <p class="card-text">
-                                  <strong><i class="bi bi-pencil"></i> Description: </strong>
-                                  {{ tour.tour_descr|truncatewords:20 }}
-                              </p>
-                              <p class="card-text">
-                                  <strong><i class="bi bi-geo-alt"></i> Location: </strong>
-                                  <small class="text-muted">{{ tour.location }}</small>
-                              </p>
-                              <p class="card-text">
-                                  <strong><i class="bi bi-tag"></i> Type: </strong>
-                                  {{ tour.get_tour_type_display }}
-                              </p>
-                              {% if tour.popular %}
-                                  <span ><i class="bi bi-star-fill"></i> Popular</span>
-                              {% endif %}
-
-                              <p class="card-text mb-2">
-                                <strong>Price:</strong> <del><span class="text-muted">₹{{ tour.price }}</span></del>
-                            </p>
-                            <p class="card-text mb-2" style="font-size: 1rem; font-weight: bold; color: #28a745;">
-                                <strong>Offer Price:</strong> <span>₹{{ discounted_price }}</span>
-                            </p>
+    <div class="container">
+      <div class="card mb-4 shadow-sm" style="max-height: 1200px; overflow-y: auto; background-color: whitesmoke;">
+          <div class="card-body">
+              {% for tour in tours %}
+                  <div class="row mb-3">
+                      <div class="col-md-3">
+                          <img src="{% static 'images/tours_img/' %}{{ tour.image.url }}" style="max-height: 250px;" class="img-fluid rounded-start" alt="{{ tour.name }}">
+                      </div>
+                      <div class="col-md-9">
+                          <div class="card mb-3 shadow-sm">
+                              <div class="card-body">
+                                  <a href="{% url 'tour_detail' tour.tour_id %}" class="text-dark text-decoration-none">
+                                      <h5 class="card-title">{{ tour.name }}</h5>
+                                  </a>
+                                  <p class="card-text">
+                                      <strong><i class="bi bi-pencil"></i> Description: </strong>
+                                      {{ tour.tour_descr|truncatewords:20 }}
+                                  </p>
+                                  <p class="card-text">
+                                      <strong><i class="bi bi-geo-alt"></i> Location: </strong>
+                                      <small class="text-muted">{{ tour.location }}</small>
+                                  </p>
+                                  <p class="card-text">
+                                      <strong><i class="bi bi-tag"></i> Type: </strong>
+                                      {{ tour.get_tour_type_display }}
+                                  </p>
+                                  {% if tour.popular %}
+                                      <span><i class="bi bi-star-fill"></i> Popular</span>
+                                  {% endif %}
+  
+                                  <p class="card-text mb-2">
+                                      <strong>Price:</strong> <del><span class="text-muted">₹{{ tour.price }}</span></del>
+                                  </p>
+                                  <p class="card-text mb-2" style="font-size: 1rem; font-weight: bold; color: #28a745;">
+                                      <strong>Offer Price:</strong> <span>₹{{ discounted_price }}</span>
+                                  </p>
+                              </div>
                           </div>
                       </div>
                   </div>
-              </div>
-          {% empty %}
-              <p>No tours available.</p>
-          {% endfor %}
+              {% empty %}
+                  <p>No tours available.</p>
+              {% endfor %}
+          </div>
       </div>
+  </div>
+  
   
 
 {% endblock body %}

@@ -120,29 +120,36 @@
 {% block comments %}
 {% endblock comments %}
 <!-- footer-->
-    <footer class="ftco-footer ftco-bg-dark ftco-section">
+<footer class="ftco-footer ftco-bg-dark ftco-section" 
+        style="background-image: url('{% static 'images/footer_img.png' %}');
+               background-size: 100% 100%;
+               background-repeat: no-repeat;
+               background-position: center;
+               color: black;
+               overflow: hidden;">
       <div class="container">
         <div class="row mb-5">
-          <div class="col-md">
+          <div class="col-md-4">
             <div class="ftco-footer-widget mb-4">
-              <h2 class="ftco-heading-2">Kashmir Adventures</h2>
-              <p>We established this firm as we saw the need of security for travelers' financial, property and health. We take responsibility of your destinations with 100% guarantee.</p>
+                <img class="logo-navbar" src="{% static 'images/icons/himalayan_logo.png' %}" alt=""><br><br>
+                <h2 class="ftco-heading-2" style="color: black; font-weight:600;">Himalayan Edges</h2>
+                <p style="color: black; font-weight:500;">Himalayan Edges takes you places you've only imagined. Live your dreams. Check us out and book your adventure today.</p>
             </div>
-          </div>
-          <div class="col-md">
-             <div class="ftco-footer-widget mb-4">
-              <h2 class="ftco-heading-2">Book Now</h2>
+        </div>
+        <div class="col-md-4">
+          <div class="ftco-footer-widget mb-4">
+              <h2 class="ftco-heading-2" style="color: black; font-weight:600;">About</h2>
               <ul class="list-unstyled">
-                <li><a href="{% url 'tours' %}" class="py-2 d-block">Hotels</a></li>
-                <li><a href="{% url 'tours' %}" class="py-2 d-block">Tour</a></li>
-                <li><a href="{% url 'tours' %}" class="py-2 d-block">Car Rent</a></li>
+                  <li><a href="https://test.himalayanedges.com/faq/index.htm" class="py-2 d-block" style="color: black; font-weight:500;">Gulmarg</a></li>
+                  <li><a href="https://test.himalayanedges.com/blog/index.htm" class="py-2 d-block" style="color: black; font-weight:500;">Blog</a></li>
+                <!-- <li><a href="{% url 'tours' %}" class="py-2 d-block">Car Rent</a></li>
                 <li><a href="{% url 'tours' %}" class="py-2 d-block">Beach &amp; Resorts</a></li>
                 <li><a href="{% url 'tours' %}" class="py-2 d-block">Mountains</a></li>
-                <li><a href="{% url 'tours' %}" class="py-2 d-block">Cruises</a></li>
+                <li><a href="{% url 'tours' %}" class="py-2 d-block">Cruises</a></li> -->
               </ul>
             </div>
           </div>
-          <div class="col-md">
+          <!-- <div class="col-md">
              <div class="ftco-footer-widget mb-4">
               <h2 class="ftco-heading-2">Top Destinations</h2>
               <ul class="list-unstyled">
@@ -156,8 +163,8 @@
                 <li><a href="{% url 'tours' %}" class="py-2 d-block">Selous Game Reserve</a></li>
               </ul>
             </div>
-          </div>
-          <div class="col-md">
+          </div> -->
+          <!-- <div class="col-md">
              <div class="ftco-footer-widget mb-4">
               <h2 class="ftco-heading-2">Contact Information</h2>
               <ul class="list-unstyled">
@@ -168,25 +175,25 @@
                 <li><a href="#" class="py-2 d-block">www.Kashmiradventures.com</a></li>
               </ul>
             </div>
-          </div>
-          <div class="col-md">
+          </div> -->
+          <div class="col-md-4">
             <div class="ftco-footer-widget mb-4">
-              <ul class="ftco-footer-social list-unstyled float-md-right float-lft">
-                <li class="ftco-animate"><a href="https://www.youtube.com/c/KashmirAdventures"><span class="icon-youtube"></span></a></li>
-                <li class="ftco-animate"><a href="https://www.facebook.com/Kashmiradventures"><span class="icon-facebook"></span></a></li>
-                <li class="ftco-animate"><a href="https://www.instagram.com/Kashmiradventures"><span class="icon-instagram"></span></a></li>
-              </ul>
+                <ul class="ftco-footer-social list-unstyled float-md-right float-lft">
+                    <li class="ftco-animate"><a href="https://x.com/himalayanedges/" style="color: black;"><span class="icon-twitter"></span></a></li>
+                    <li class="ftco-animate"><a href="https://www.facebook.com/HimalayanEdgesSkiTrekTravel/" style="color: black;"><span class="icon-facebook"></span></a></li>
+                    <li class="ftco-animate"><a href="https://www.instagram.com/himalayan_edges/" style="color: black;"><span class="icon-instagram"></span></a></li>
+                </ul>
             </div>
-          </div>
+        </div>
         </div>
         <div class="row">
           <div class="col-md-12 text-center">
-
-            <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-  Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This site was made by <a href="https://twitter.com/tuke2911" target="_blank">Luqman Tuke</a>
-</p>
+              <p style="color: black;">
+                  <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                  Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This site was made by <a href="https://www.instagram.com/iamanasansari_?igsh=MXZueWs4Z3oxanBnMA==" target="_blank" style="color: black;">Md. Anas Al-Ansari</a>
+              </p>
           </div>
-        </div>
+      </div>
       </div>
     </footer>
     

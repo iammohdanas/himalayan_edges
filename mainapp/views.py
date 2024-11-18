@@ -10,13 +10,13 @@ from mainapp.forms import BookingForm, ContactForm
 from mainapp.models import Agent, Message, Post, Tour
 from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView, CreateView
-
 from django.db.models import Q
-
 from django.urls import reverse_lazy, reverse
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.contrib import messages
-
+from django.shortcuts import render, redirect
+from .models import Agent, Orders, Review
+from django.views.decorators.csrf import csrf_exempt
 from django.core.mail import send_mail, BadHeaderError
 from django.utils.text import slugify
 from django.core.files.storage import FileSystemStorage
@@ -26,14 +26,17 @@ from django.core.files.storage import FileSystemStorage
 
 def index(request):
     posts = Post.objects.all().order_by('-publish')[0:4]
-    tour = Tour.objects.filter(popular=True, tour_type="featured").order_by('name')[0:8]
+    tour = Tour.objects.filter( tour_type="featured").order_by('name')[0:3]
+    tour_value = Tour.objects.all().values()
     place_id = 'your_place_id_here'  # Replace with the actual Place ID of your location
+    print(tour_value)
     # reviews = get_google_reviews(place_id)
+    reviews = Review.objects.all().order_by('-created_at')
     context = {
          'posts': posts,
          'tours': tour,
-         'discounted_price' : discounted_price_fun(tour)
-        #  'reviews': reviews         
+         'discounted_price' : discounted_price_fun(tour),
+         'reviews': reviews   
     }
     return render(request, 'index.html', context)
 
@@ -135,7 +138,7 @@ def create_tour(request):
             discount = request.POST.get('discount')
             summary = request.POST.get('summary')
             daysnights = request.POST.get('daysnights')
-
+            videolink = request.POST.get('videolink')
             image = request.FILES.get('image')
             image1 = request.FILES.get('image1')
             image2 = request.FILES.get('image2')
@@ -171,6 +174,7 @@ def create_tour(request):
                 popular=popular,
                 rating=rating,
                 tourdays=daysnights,
+                video_link = videolink,
                 price=price,
                 discount=discount,
                 slug=slugify(name),
@@ -252,11 +256,6 @@ def payment_page(request):
     tours = Tour.objects.filter(tour_id=tour_id)
     return render(request,"payment/payment_page.html",{'tours': tours})
 
-
-from django.shortcuts import render, redirect
-from .models import Agent
-from django.views.decorators.csrf import csrf_exempt
-
 def create_agent_view(request):
     if request.method == 'POST':
         name = request.POST['name']
@@ -279,3 +278,49 @@ def delete_agent_view(request, agent_id):
         except Agent.DoesNotExist:
             pass
         return redirect('list_agents')
+    
+def submit_review(request):
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        email = request.POST.get('email')
+        country = request.POST.get('country')
+        review_text = request.POST.get('review_text')
+        rating = request.POST.get('rating')
+        if name and email and country and review_text and rating:
+            try:
+                rating = int(rating)
+                if 1 <= rating <= 5:
+                    Review.objects.create(
+                        name=name,
+                        email=email,
+                        country=country,
+                        review_text=review_text,
+                        rating=rating
+                    )
+                    return redirect('submit_review')
+                else:
+                    return HttpResponse("Rating must be between 1 and 5.")
+            except ValueError:
+                return HttpResponse("Invalid rating. Please enter a number between 1 and 5.")
+        else:
+            return HttpResponse("All fields are required.")
+
+    return redirect('home')
+
+def checkout(request):
+    if request.method=="POST":
+        items_json = request.POST.get('itemsJson', '')
+        name = request.POST.get('name', '')
+        amount = request.POST.get('amount', '')
+        email = request.POST.get('email', '')
+        address = request.POST.get('address1', '') + " " + request.POST.get('address2', '')
+        city = request.POST.get('city', '')
+        state = request.POST.get('state', '')
+        zip_code = request.POST.get('zip_code', '')
+        phone = request.POST.get('phone', '')
+        order = Orders(items_json=items_json, name=name, email=email, address=address, city=city,
+                       state=state, zip_code=zip_code, phone=phone, amount=amount)
+        order.save()
+        id = order.order_id
+        return render(request, 'shop/checkout.html')
+    return render(request, 'shop/checkout.html')

@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-!t_ingssgoo=t+&i4crce4@ohxzd^126&yji%04f0q4^+kt7o9
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*","https://native-mackerel-routinely.ngrok-free.app"]
 
 
 # Application definition

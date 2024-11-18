@@ -30,7 +30,7 @@
                                         <p><strong>Duration:</strong> {{ tour.tourdays }} days</p>
                                     </div>
                                     <div class="col-md-6 col-lg-3 mb-2">
-                                        <p><strong>Price:</strong> ${{ tour.price }}</p>
+                                        <p><strong>Price:</strong> ₹{{ tour.price }}</p>
                                     </div>
                                     {% if tour.discount %}
                                         <div class="col-md-6 col-lg-3 mb-2">
@@ -40,9 +40,21 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label for="inputname">Name</label>
+                            <input type="text" class="form-control" id="name" name="name" placeholder="Enter Your Name">
+                        </div>
+                        <div class="form-group">
+                            <label for="inputEmail4">Email</label>
+                            <input type="email" class="form-control" id="email" name="email" placeholder="Enter Your Email">
+                        </div>
+                        <div class="form-group">
+                            <label for="inputZip">Phone Number</label>
+                            <input type="tel" class="form-control" id="phone" placeholder="Enter Your Phone Number" name="phone">
+                        </div>
                         
                         <p>Pay online to confirm your booking for <strong>{{ tour.name }}</strong>.</p>
-                        <button class="btn btn-primary" style="background-color: #1717c9; border: 1px solid white; border-radius: 10px; color: white; transition: color 0.3s;" onmouseover="this.style.color='darkgray'" onmouseout="this.style.color='white'">Proceed to Online Payment</button>
+                        <button class="btn btn-primary" style="background-color: #1717c9; border: 1px solid white; border-radius: 10px; color: white; transition: color 0.3s;" onmouseover="this.style.color='darkgray'" onmouseout="this.style.color='white'">Place Order</button>
                     </div>
 
                     <!-- Offline Payment Column -->

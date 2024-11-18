@@ -116,10 +116,18 @@
                   </div>
       
                   <!-- Footer with action buttons -->
-                  <div class="card-footer bg-white border-0 d-flex justify-content-between align-items-center">
-                      <a href="{% url 'tour_detail' tour.tour_id %}" class="btn btn-primary btn-sm">View Details</a>
-                      <span class="text-muted small">#{{ tour.tour_id }}</span>
-                  </div>
+                  <div class="row" style="display: flex; align-items: center; justify-content: space-between; padding: 10px; margin: 10px;">
+                    <div style="flex: 1; display: flex; justify-content: flex-start;">
+                        <a href="{% url 'tour_detail' tour.tour_id %}" class="btn btn-primary btn-sm">View Details</a>
+                    </div>
+                    <form action="{% url 'payment_page' %}" method="POST" style="flex: 1; display: flex; justify-content: center; margin: 0;">
+                        {% csrf_token %}
+                        <input type="text" style="display: none;" name="tour_id" value="{{ tour.tour_id }}">
+                        <button type="submit" class="btn btn-warning shadow-0">Book Now</button>
+                    </form>
+                    <span class="text-muted small" style="flex: 1; display: flex; justify-content: flex-end;">#{{ tour.tour_id }}</span>
+                </div>                
+                  
               </div>
           </div>
           {% endfor %}
@@ -244,7 +252,7 @@
         <div class="row ftco-animate">
           <div class="carousel owl-carousel ftco-owl">
             <div class="item text-center">
-              <div class="testimony-wrap p-4 pb-5">
+              <div class="testimony-wrap p-4 pb-5" style="min-height: 24rem;">
                 <div class="user-img mb-4" style="background-image: url({% static 'images/chris.jpg' %})" style="border: 1px solid red;"></div>
                 <div class="text">
                   <p class="star-rate"><span class="icon-star"></span><span class="icon-star"></span><span class="icon-star"></span><span class="icon-star"></span><span class="icon-star-half-full"></span></p>
@@ -255,7 +263,7 @@
               </div>
             </div>
             <div class="item text-center">
-              <div class="testimony-wrap p-4 pb-5">
+              <div class="testimony-wrap p-4 pb-5" style="min-height: 24rem;">
                 <div class="user-img mb-4" style="background-image: url({% static 'images/anna.jpeg' %})" style="border: 1px solid red;"></div>
                 <div class="text">
                   <p class="star-rate"><span class="icon-star"></span><span class="icon-star"></span><span class="icon-star"></span><span class="icon-star"></span><span class="icon-star-half-full"></span></p>
@@ -266,7 +274,7 @@
               </div>
             </div>
             <div class="item text-center">
-              <div class="testimony-wrap p-4 pb-5">
+              <div class="testimony-wrap p-4 pb-5" style="min-height: 24rem;">
                 <div class="user-img mb-4" style="background-image: url({% static 'images/dennis.jpg' %})" style="border: 1px solid red;"></div>
                 <div class="text">
                   <p class="star-rate"><span class="icon-star"></span><span class="icon-star"></span><span class="icon-star"></span><span class="icon-star"></span><span class="icon-star-half-full"></span></p>
@@ -277,7 +285,7 @@
               </div>
             </div>
             <div class="item text-center">
-              <div class="testimony-wrap p-4 pb-5">
+              <div class="testimony-wrap p-4 pb-5" style="min-height: 24rem;">
                 <div class="user-img mb-4" style="background-image: url({% static 'images/richard.jpeg' %})" style="border: 1px solid red;"></div>
                 <div class="text">
                   <p class="star-rate"><span class="icon-star"></span><span class="icon-star"></span><span class="icon-star"></span><span class="icon-star"></span><span class="icon-star-half-full"></span></p>
@@ -287,6 +295,29 @@
                 </div>
               </div>
             </div>
+            {% for review in reviews %}
+              <div class="item text-center">
+                <div class="testimony-wrap p-4 pb-5" style="min-height: 24rem;">
+                  <!-- Placeholder for user image -->
+                  <div class="user-img mb-4" style="background-image: url({% static 'images/icons/user_img.png' %}); border: 1px solid red;"></div>
+                  <div class="text">
+                    <!-- Display star rating dynamically -->
+                    <p class="star-rate">
+                      {% for i in "12345" %}
+                        {% if forloop.counter <= review.rating %}
+                          <span class="icon-star"></span>
+                        {% else %}
+                          <span class="icon-star-o"></span>
+                        {% endif %}
+                      {% endfor %}
+                    </p>
+                    <p class="mb-5">{{ review.review_text }}</p>
+                    <p class="name">{{ review.name }}</p>
+                    <span class="position">Guests from {{ review.country }}</span>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
             <!-- {% if reviews %}
               {% for review in reviews %}
               <div class="item text-center">
@@ -325,27 +356,24 @@
         </div>
         <div class="row ftco-animate">
           <div class="col-md-12">
-            <form action="#" method="post" class="bg-light p-5 contact-form">
+            <form action="{% url 'submit_review' %}" method="post" class="bg-light p-5 contact-form">
               {% csrf_token %}
               <div class="form-group">
-                <input type="text" class="form-control" placeholder="Your Name">
+                <input type="text" name="name" class="form-control" placeholder="Your Name" required>
               </div>
               <div class="form-group">
-                <input type="email" class="form-control" placeholder="Your Email">
+                <input type="email" name="email" class="form-control" placeholder="Your Email" required>
               </div>
               <div class="form-group">
-                <input type="text" class="form-control" placeholder="Your Country">
+                <input type="text" name="country" class="form-control" placeholder="Your Country" required>
               </div>
               <div class="form-group">
-                <textarea name="" id="" cols="30" rows="7" class="form-control" placeholder="Your Review"></textarea>
+                <textarea name="review_text" cols="30" rows="7" class="form-control" placeholder="Your Review" maxlength="125" required></textarea>
+                <small>Max character length : 125</small>
               </div>
               <div class="form-group">
                 <label class="mr-3">Rate Your Experience: </label>
-                <span class="icon-star"></span>
-                <span class="icon-star"></span>
-                <span class="icon-star"></span>
-                <span class="icon-star"></span>
-                <span class="icon-star-half-full"></span>
+                <input type="number" name="rating" min="1" max="5" class="form-control" placeholder="Rating (1-5)" required>
               </div>
               <div class="form-group">
                 <input type="submit" value="Submit Review" class="btn btn-primary py-3 px-5">

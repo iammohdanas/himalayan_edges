@@ -38,4 +38,5 @@ urlpatterns = [
     path('create-agent/', views.create_agent_view, name='create_agent'),
     path('agents-list/', views.list_agents_view, name='list_agents'),
     path('delete/<int:agent_id>/', views.delete_agent_view, name='delete_agent'),
+    path('submit-review/', views.submit_review, name='submit_review'),
 ]
