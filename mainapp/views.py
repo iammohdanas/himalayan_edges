@@ -10,159 +10,18 @@ from mainapp.forms import BookingForm, ContactForm
 from mainapp.models import Agent, Message, Post, Tour
 from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView, CreateView
+
 from django.db.models import Q
+
 from django.urls import reverse_lazy, reverse
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.contrib import messages
+
 from django.core.mail import send_mail, BadHeaderError
 from django.utils.text import slugify
 from django.core.files.storage import FileSystemStorage
-from django.shortcuts import render, redirect
-from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, login, logout
-from django.contrib import messages
-from django.core.mail import send_mail
-from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
-from django.utils.encoding import force_bytes, force_str
-from django.contrib.auth.tokens import default_token_generator
-from django.utils import timezone
-from .models import LoginLogoutActivity
-from django.contrib.auth import update_session_auth_hash
-
-def register_view(request):
-    if request.method == 'POST':
-        username = request.POST['username']
-        email = request.POST['email']
-        mobile_no = request.POST['mobile_no']
-        password = request.POST['password']
-
-        if User.objects.filter(username=username).exists():
-            messages.error(request, 'Username already exists.')
-            return redirect('register')
-        if User.objects.filter(email=email).exists():
-            messages.error(request, 'Email already registered.')
-            return redirect('register')
-        if User.objects.filter(mobile_no=mobile_no).exists():
-            messages.error(request, 'Mobile number already registered.')
-            return redirect('register')
-        user = User.objects.create_user(username=username, email=email, password=password)
-        user.is_active = False  # Disable account until email is verified
-        user.save()
-
-        # Generate email verification token
-        token = default_token_generator.make_token(user)
-        uid = urlsafe_base64_encode(force_bytes(user.pk))
-
-        verification_link = request.build_absolute_uri(f'/verify-email/{uid}/{token}/')
-
-        # Send verification email
-        send_mail(
-            'Verify your email',
-            f'Click the link to verify your email: {verification_link}',
-            'from@example.com',
-            [email],
-            fail_silently=False,
-        )
-
-        messages.success(request, 'Registration successful. Check your email to verify your account.')
-        return redirect('login')
-    return render(request, 'partial_templates/register.html')
-
-def verify_email_view(request, uidb64, token):
-    try:
-        uid = force_str(urlsafe_base64_decode(uidb64))
-        user = User.objects.get(pk=uid)
-    except (TypeError, ValueError, OverflowError, User.DoesNotExist):
-        user = None
-
-    if user and default_token_generator.check_token(user, token):
-        user.is_active = True
-        user.save()
-        messages.success(request, 'Email verified successfully. You can now login.')
-        return redirect('login')
-    else:
-        messages.error(request, 'Invalid verification link.')
-        return redirect('register')
-
-def login_view(request):
-    if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
-        user = authenticate(request, username=username, password=password)
-
-        if user:
-            if user.is_active:
-                login(request, user)
-                LoginLogoutActivity.objects.create(user=user, login_time=timezone.now())
-                messages.success(request, 'Login successful.')
-                return redirect('home')
-            else:
-                messages.error(request, 'Account not verified. Check your email.')
-        else:
-            messages.error(request, 'Invalid credentials.')
-    return render(request, 'partial_templates/login.html')
-
-def logout_view(request):
-    if request.user.is_authenticated:
-        LoginLogoutActivity.objects.filter(user=request.user).latest('login_time').logout_time = timezone.now()
-        logout(request)
-        messages.success(request, 'Logged out successfully.')
-    return redirect('login')
-
-def password_reset_request_view(request):
-    if request.method == 'POST':
-        email = request.POST['email']
-        try:
-            user = User.objects.get(email=email)
-        except User.DoesNotExist:
-            messages.error(request, 'No user found with the provided email address.')
-            return redirect('password_reset_request')
-
-        token = default_token_generator.make_token(user)
-        uid = urlsafe_base64_encode(force_bytes(user.pk))
-
-        reset_link = request.build_absolute_uri(f'/reset-password/{uid}/{token}/')
-
-        # Send password reset email
-        send_mail(
-            'Password Reset Request',
-            f'Click the link to reset your password: {reset_link}',
-            'from@example.com',
-            [email],
-            fail_silently=False,
-        )
-
-        messages.success(request, 'Password reset link has been sent to your email.')
-        return redirect('login')
-    return render(request, 'partial_templates/password_reset_request.html')
 
 
-def password_reset_view(request, uidb64, token):
-    try:
-        uid = force_str(urlsafe_base64_decode(uidb64))
-        user = User.objects.get(pk=uid)
-    except (TypeError, ValueError, OverflowError, User.DoesNotExist):
-        user = None
-
-    if user and default_token_generator.check_token(user, token):
-        if request.method == 'POST':
-            password = request.POST['password']
-            password_confirm = request.POST['password_confirm']
-
-            if password != password_confirm:
-                messages.error(request, 'Passwords do not match.')
-                return redirect('password_reset', uidb64=uidb64, token=token)
-
-            user.set_password(password)
-            user.save()
-            update_session_auth_hash(request, user)  # Prevent logout after password change
-            messages.success(request, 'Password reset successful. You can now log in with your new password.')
-            return redirect('login')
-
-        return render(request, 'partial_templates/password_reset.html')
-    else:
-        messages.error(request, 'Invalid or expired reset link.')
-        return redirect('password_reset_request')
 
 
 def index(request):
