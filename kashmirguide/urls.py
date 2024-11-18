@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-
+from django.urls import path, include
 from mainapp import views
 
 urlpatterns = [
@@ -38,4 +38,12 @@ urlpatterns = [
     path('create-agent/', views.create_agent_view, name='create_agent'),
     path('agents-list/', views.list_agents_view, name='list_agents'),
     path('delete/<int:agent_id>/', views.delete_agent_view, name='delete_agent'),
+    #  path('register/', views.register_view, name='register'),
+    # path('verify-email/<uidb64>/<token>/', views.verify_email_view, name='verify_email'),
+    # path('login/', views.login_view, name='login'),
+    # path('logout/', views.logout_view, name='logout'),
+    # path('password-reset-request/', views.password_reset_request_view, name='password_reset_request'),
+    # path('reset-password/<uidb64>/<token>/', views.password_reset_view, name='password_reset'),
+    # urls authenticator app
+    path('auth_system/', include('authenticator.urls')),
 ]
