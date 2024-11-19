@@ -115,14 +115,20 @@
               <!-- Tour details -->
               <div class="col-md-6">
                 <div class="mb-3">
-                  <span class="h5">₹{{ tour.price }}</span>
-                  {% if tour.discount %}
-                  &nbsp;
-                  <span class="text-muted text-decoration-line-through" style="color: brown;">Discount : {{ tour.discount }}%</span>
-                  {% endif %}
+                    {% if tour.discount %}
+                        <span class="h5 text-muted" style="color: #dc3545; text-decoration: line-through;">₹{{ tour.price|floatformat:0 }}</span>
+                        <span class="ms-2 text-danger" style="font-size: 1.2rem;">(Discount: {{ tour.discount }}%)</span>
+                        <br>
+                        <span class="card-text mt-1" style="font-size: 2rem; font-weight: bold; color: #28a745;">
+                            Offer Price: ₹{{ discounted_price|floatformat:0 }}/-
+                        </span>
+                    {% else %}
+                        <span class="h5" style="font-size: 1.5rem; color: #000;">₹{{ tour.price|floatformat:0 }}</span>
+                    {% endif %}
                 </div>
-                <p>{{ tour.summary }}</p>
-              </div>
+                <p class="mt-2" style="font-size: 1.1rem; color: #6c757d;">{{ tour.summary }}</p>
+            </div>
+            
             
               <!-- Embedded video -->
                

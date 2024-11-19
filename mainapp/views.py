@@ -25,20 +25,31 @@ from django.core.files.storage import FileSystemStorage
 
 
 def index(request):
-    posts = Post.objects.all().order_by('-publish')[0:4]
-    tour = Tour.objects.filter( tour_type="featured").order_by('name')[0:3]
-    tour_value = Tour.objects.all().values()
-    place_id = 'your_place_id_here'  # Replace with the actual Place ID of your location
-    print(tour_value)
-    # reviews = get_google_reviews(place_id)
+    posts = Post.objects.all().order_by('-publish')[:4]
+    tours = Tour.objects.filter(tour_type="featured").order_by('name')[:3]
     reviews = Review.objects.all().order_by('-created_at')
+    tours_with_discounts = [
+        {
+            "tour_id": tour.tour_id,
+            "name": tour.name,
+            "location": tour.location,
+            "tour_type": tour.tour_type,
+            "tour_descr": tour.tour_descr,
+            "price": tour.price,
+            "discount": tour.discount,
+            "discounted_price": int(tour.price - (tour.price * (tour.discount / 100)) if tour.discount else tour.price),
+            "image": tour.image,
+            "popular": tour.popular,
+        }
+        for tour in tours
+    ]
     context = {
-         'posts': posts,
-         'tours': tour,
-         'discounted_price' : discounted_price_fun(tour),
-         'reviews': reviews   
+        'posts': posts,
+        'tours': tours_with_discounts,
+        'reviews': reviews
     }
     return render(request, 'index.html', context)
+
 
 def discounted_price_fun(tour):
     for tour_data in tour:
@@ -54,12 +65,27 @@ def handler500(request):
 
 def tour_list(request):
     tours = Tour.objects.all()  # Fetch all the tours
+    tours_with_details = [
+        {
+            "tour_id": tour.tour_id,
+            "name": tour.name,
+            "location": tour.location,
+            "tour_type": tour.tour_type,
+            "tour_descr": tour.tour_descr,
+            "price": tour.price,
+            "discount": tour.discount,
+            "discounted_price": int(tour.price - (tour.price * (tour.discount / 100)) if tour.discount else tour.price),
+            "image": tour.image,
+            "popular": tour.popular,
+        }
+        for tour in tours
+    ]
+
     context = {
-        'tours': tours,
-        'discounted_price' : discounted_price_fun(tours)
+        'tours': tours_with_details,
     }
-    print(context)
     return render(request, 'pages/tours.html', context)
+
 
 
 def contactView(request):

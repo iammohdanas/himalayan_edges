@@ -9,6 +9,9 @@
           border-radius: 14px;
           margin-top: -60px;
       }
+      .ftco-section{
+        padding-bottom: 5px;
+      }
     </style>
     <section class="home-slider owl-carousel">
       <div class="slider-item" style="background-image: url('{% static 'images/bg_3.jpg' %}');overflow: scroll;">
@@ -89,7 +92,7 @@
                           <strong>Location:</strong> <span class="text-muted">{{ tour.location }}</span>
                       </p>
                       <p class="card-text mb-2">
-                          <strong>Type:</strong> <span class="text-muted">{{ tour.get_tour_type_display }}</span>
+                          <strong>Type:</strong> <span class="text-muted">{{ tour.tour_type }}</span>
                       </p>
       
                       <!-- Tour description, truncated if needed -->
@@ -111,7 +114,7 @@
                           <strong>Price:</strong> <del><span class="text-muted">₹{{ tour.price }}</span></del>
                       </p>
                       <p class="card-text mb-2" style="font-size: 1.5rem; font-weight: bold; color: #28a745;">
-                          <strong>Offer Price:</strong> <span>₹{{ discounted_price }}</span>
+                          <strong>Offer Price:</strong> <span>₹{{ tour.discounted_price }}/-</span>
                       </p>
                   </div>
       

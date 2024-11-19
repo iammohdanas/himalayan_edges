@@ -51,7 +51,7 @@ Tours
                                   </p>
                                   <p class="card-text">
                                       <strong><i class="bi bi-tag"></i> Type: </strong>
-                                      {{ tour.get_tour_type_display }}
+                                      {{ tour.tour_type }}
                                   </p>
                                   {% if tour.popular %}
                                       <span><i class="bi bi-star-fill"></i> Popular</span>
@@ -61,7 +61,7 @@ Tours
                                       <strong>Price:</strong> <del><span class="text-muted">₹{{ tour.price }}</span></del>
                                   </p>
                                   <p class="card-text mb-2" style="font-size: 1rem; font-weight: bold; color: #28a745;">
-                                      <strong>Offer Price:</strong> <span>₹{{ discounted_price }}</span>
+                                      <strong>Offer Price:</strong> <span>₹₹{{ tour.discounted_price }}/-</span>
                                   </p>
                               </div>
                           </div>
