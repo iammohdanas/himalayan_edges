@@ -145,7 +145,7 @@ class Review(models.Model):
     review_text = models.TextField()
     rating = models.IntegerField()  # Assuming rating will be a number (1-5)
     created_at = models.DateTimeField(auto_now_add=True)
-
+    login_email = models.CharField(max_length=100, null=True)
     def __str__(self):
         return f"{self.name} - {self.rating} stars"
     

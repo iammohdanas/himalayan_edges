@@ -7,73 +7,97 @@
     <h2 class="text-center">Payment Options</h2>
 
     {% for tour in tours %}
-        <div class="card mb-4">
-            <div class="card-body">
-                <div class="row mt-4">
-                
-                
-               
-                    <!-- Online Payment Column -->
-                    <div class="col-md-6">
-                        <h4>Online Payment</h4><br>
-                        <h3 class="card-title">{{ tour.name }}</h3>
-                        <div class="container mt-3">
-                            <div class="card p-3">
-                                <div class="row">
-                                    <div class="col-md-6 col-lg-3 mb-2">
-                                        <p><strong>Location:</strong> {{ tour.location }}</p>
-                                    </div>
-                                    <div class="col-md-6 col-lg-3 mb-2">
-                                        <p><strong>Tour Type:</strong> {{ tour.get_tour_type_display }}</p>
-                                    </div>
-                                    <div class="col-md-6 col-lg-3 mb-2">
-                                        <p><strong>Duration:</strong> {{ tour.tourdays }} days</p>
-                                    </div>
-                                    <div class="col-md-6 col-lg-3 mb-2">
-                                        <p><strong>Price:</strong> ₹{{ tour.price }}</p>
-                                    </div>
-                                    {% if tour.discount %}
-                                        <div class="col-md-6 col-lg-3 mb-2">
-                                            <p><strong>Discount:</strong> {{ tour.discount }}%</p>
-                                        </div>
-                                    {% endif %}
+    <div class="card mb-4">
+        <div class="card-body">
+            <div class="row mt-4">
+                <!-- Online Payment Column -->
+                <div class="col-md-6">
+                    <h4>Online Payment</h4><br>
+                    <h3 class="card-title">{{ tour.name }}</h3>
+                    <div class="container mt-3">
+                        <div class="card p-3">
+                            <div class="row">
+                                <div class="col-md-6 col-lg-3 mb-2">
+                                    <p><strong>Location:</strong> {{ tour.location }}</p>
                                 </div>
+                                <div class="col-md-6 col-lg-3 mb-2">
+                                    <p><strong>Tour Type:</strong> {{ tour.get_tour_type_display }}</p>
+                                </div>
+                                <div class="col-md-6 col-lg-3 mb-2">
+                                    <p><strong>Duration:</strong> {{ tour.tourdays }} days</p>
+                                </div>
+                                <div class="col-md-6 col-lg-3 mb-2">
+                                    <p><strong>Price:</strong> ₹{{ tour.price }}</p>
+                                </div>
+                                {% if tour.discount %}
+                                    <div class="col-md-6 col-lg-3 mb-2">
+                                        <p><strong>Discount:</strong> {{ tour.discount }}%</p>
+                                    </div>
+                                {% endif %}
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label for="inputname">Name</label>
-                            <input type="text" class="form-control" id="name" name="name" placeholder="Enter Your Name">
-                        </div>
-                        <div class="form-group">
-                            <label for="inputEmail4">Email</label>
-                            <input type="email" class="form-control" id="email" name="email" placeholder="Enter Your Email">
-                        </div>
-                        <div class="form-group">
-                            <label for="inputZip">Phone Number</label>
-                            <input type="tel" class="form-control" id="phone" placeholder="Enter Your Phone Number" name="phone">
-                        </div>
-                        
-                        <p>Pay online to confirm your booking for <strong>{{ tour.name }}</strong>.</p>
-                        <button class="btn btn-primary" style="background-color: #1717c9; border: 1px solid white; border-radius: 10px; color: white; transition: color 0.3s;" onmouseover="this.style.color='darkgray'" onmouseout="this.style.color='white'">Place Order</button>
                     </div>
-
-                    <!-- Offline Payment Column -->
-                    <div class="col-md-6">
-                        <h4>Offline Payment</h4><br>
-                        <p>You can make an offline payment by scanning the QR code below and sharing the screenshot with us. For more assistance, contact our agent: <strong>{{ tour.agent_name }}</strong>.</p>
-                        <img src="{% static 'images/payment/qr_tour_pay_1.jpeg' %}" alt="QR Code for Offline Payment" class="img-fluid">
-                        <address class="mt-3">
-                            <strong>Name :</strong> &nbsp; Irshad Ahmad Sheikh <br>
-
-                            <strong>Our Address:</strong><br>
-                            Kashmir, J&K, India<br>
-                            Kashmir<br>
-                            Phone: +91-9906568655
-                        </address>
+                    <div class="form-group">
+                        <label for="inputname">Name</label>
+                        <input type="text" class="form-control" id="name" name="name" placeholder="Enter Your Name">
                     </div>
+                    <div class="form-group">
+                        <label for="inputEmail4">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" placeholder="Enter Your Email">
+                    </div>
+                    <div class="form-group">
+                        <label for="inputZip">Phone Number</label>
+                        <input type="tel" class="form-control" id="phone" placeholder="Enter Your Phone Number" name="phone">
+                    </div>
+                    <p>Pay online to confirm your booking for <strong>{{ tour.name }}</strong>.</p>
+                    <h4 style="color: rgb(136, 0, 0);">Online Payments are disabled for a while.</h4>
+                    <button class="btn btn-primary" style="background-color: #1717c9; border: 1px solid white; border-radius: 10px; color: white; transition: color 0.3s;" onmouseover="this.style.color='darkgray'" onmouseout="this.style.color='white'" disabled>Place Order</button>
+                </div>
+    
+                <!-- Offline Payment Column -->
+                <div class="col-md-6">
+                    <h4>Offline Payment</h4><br>
+                    <p>You can make an offline payment by scanning the QR code below and sharing the screenshot with us. For more assistance, contact our agent: <strong>{{ tour.agent_name }}</strong>.</p>
+                    <div class="text-center">
+                    <img src="{% static 'images/payment/qr_tour_pay_1.jpeg' %}" alt="QR Code for Offline Payment" class="img-fluid mb-4">
+                    <address class="mt-3 ">
+                        <strong>Name :</strong> &nbsp; Irshad Ahmad Sheikh <br>
+                        <strong>Our Address:</strong><br>
+                        Kashmir, J&K, India<br>
+                        Phone: +91-9906568655 <br>
+                        <strong>UPI Number</strong>&nbsp; 9906568655 <br>
+                        <strong>UPI ID</strong>&nbsp; irshadtaj@ybl
+                    </address>
+                </div>
+                   
+                    <!-- Bank Account Details -->
+                    <div class="container">
+                        <div class="card p-3 mb-3">
+                            <h5 class="mb-2">HDFC Bank</h5>
+                            <p><strong>Account Name:</strong> IRSHAD AHMAD SHEIKH</p>
+                            <p><strong>Account Number:</strong> 50100102411614</p>
+                            <p><strong>IFSC:</strong> HDFC0002901</p>
+                        </div>
+                        <div class="card p-3 mb-3">
+                            <h5 class="mb-2">ICICI Bank</h5>
+                            <p><strong>Account Name:</strong> IRSHAD AHMAD SHEIKH</p>
+                            <p><strong>Account Number:</strong> 436701000242</p>
+                            <p><strong>IFSC:</strong> ICIC0004367</p>
+                        </div>
+                        <div class="card p-3">
+                            <h5 class="mb-2">Jammu and Kashmir Bank</h5>
+                            <p><strong>Account Name:</strong> HIMALAYAN EDGES</p>
+                            <p><strong>Account Number:</strong> 1257010100000208</p>
+                            <p><strong>IFSC:</strong> JAKA0EGMARG</p>
+                        </div>
+                    </div>
+                    
+                    
                 </div>
             </div>
         </div>
+    </div>
+    
     {% endfor %}
 </div>
 

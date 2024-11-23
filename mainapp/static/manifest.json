@@ -1,0 +1,35 @@
+{
+    "name": "Himalayan Edges",
+    "short_name": "Himalayan Edges",
+    "display": "standalone",
+    "lang": "en-US",
+    "start_url": "/",
+    "scope": "/",
+    "orientation": "portrait",
+    "icons": [
+      {
+        "src": "images/login_background.jpg",
+        "sizes": "1024x500",
+        "type": "image/png"
+      },
+      {
+        "src": "images/digipay_icon-1024x500.png",
+        "sizes": "1200x1200",
+        "type": "image/jpg"
+      }
+    ],
+    "screenshots": [
+      {
+        "src": "images/bg_4.jpg",
+        "sizes": "1824x956",
+        "form_factor": "wide",
+        "type": "image/png"
+      },
+      {
+        "src": "screenshot/bg_3.jpg",
+        "sizes": "364x773",
+        "type": "image/png"
+      }
+    ]
+  }
+  

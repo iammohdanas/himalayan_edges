@@ -4,6 +4,7 @@ import string
 from urllib import request
 from django.shortcuts import redirect, render
 from django.core.mail import send_mail, BadHeaderError
+from authenticator.decorators import admin_required, role_required
 from kashmirguide import settings
 from mainapp.filters import TourFilter
 from mainapp.forms import BookingForm, ContactForm
@@ -20,9 +21,8 @@ from django.views.decorators.csrf import csrf_exempt
 from django.core.mail import send_mail, BadHeaderError
 from django.utils.text import slugify
 from django.core.files.storage import FileSystemStorage
-
-
-
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 
 def index(request):
     posts = Post.objects.all().order_by('-publish')[:4]
@@ -50,7 +50,6 @@ def index(request):
     }
     return render(request, 'index.html', context)
 
-
 def discounted_price_fun(tour):
     for tour_data in tour:
         if tour_data.discount:
@@ -62,7 +61,7 @@ def discounted_price_fun(tour):
 def handler500(request):
     return render(request, '500.html', status=500)
 
-
+@login_required(redirect_field_name = 'tours')
 def tour_list(request):
     tours = Tour.objects.all()  # Fetch all the tours
     tours_with_details = [
@@ -85,7 +84,6 @@ def tour_list(request):
         'tours': tours_with_details,
     }
     return render(request, 'pages/tours.html', context)
-
 
 
 def contactView(request):
@@ -115,7 +113,6 @@ def contactView(request):
         
     return render(request, 'contact.html', {'form': form})
 
-
 def tours(request):
     return render(request,"page.html")
 
@@ -125,6 +122,8 @@ def about(request):
 def blog(request):
     return render(request,"blog.html")
 
+@login_required
+@admin_required
 def adminview(request):
     return render(request, "admin/admin_view.html")
 
@@ -134,10 +133,15 @@ def generate_tour_id():
     tour_id = f"{date_str}{random_str}"
     return tour_id
 
+@login_required
+@admin_required
 def tour_list_admin(request):
     tours = Tour.objects.all()
     return render(request, 'admin/tour_list.html', {'tours': tours})
 
+@login_required
+@admin_required
+@role_required(['admin', 'manager'])
 def delete_tour(request):
     if request.method == 'POST':
         tour_id = request.POST.get('tour_id')
@@ -149,7 +153,8 @@ def delete_tour(request):
             messages.error(request,f"Problem occured : {e}")
             return JsonResponse({'error': 'Invalid request method'}, status=405)
 
-
+@login_required
+@role_required(['admin', 'manager'])
 def create_tour(request):
     try:
         if request.method == "POST":
@@ -225,12 +230,14 @@ def create_tour(request):
 
 from django.shortcuts import render, get_object_or_404
 
+@login_required
 def tour_detail(request, tour_id):
     tour = get_object_or_404(Tour, tour_id=tour_id)
     tour_category = tour.tour_type
     tours = Tour.objects.filter(tour_type = tour_category)
     return render(request, 'pages/tour_detail.html', {'tour': tour, 'tours': tours,'discounted_price' : discounted_price_fun(tours)})
 
+@login_required
 def send_message(request):
     if request.method == 'POST':
         fullname = request.POST.get('fullname')
@@ -253,7 +260,6 @@ def send_message(request):
 
 def message_list(request):
     messages = Message.objects.filter(seen = False).all().order_by('-timestamp')
-    print(messages)
     return render(request, 'admin/message_list.html', {'messages': messages})
 
 def mark_as_seen(request, message_id):
@@ -276,12 +282,15 @@ def mark_as_seen(request, message_id):
 #             return place_details['result']['reviews']
 #     return None
 
-
+@login_required
 def payment_page(request):
     tour_id = request.POST.get('tour_id')
     tours = Tour.objects.filter(tour_id=tour_id)
     return render(request,"payment/payment_page.html",{'tours': tours})
 
+@login_required
+@admin_required
+@role_required(['admin', 'manager'])
 def create_agent_view(request):
     if request.method == 'POST':
         name = request.POST['name']
@@ -291,10 +300,16 @@ def create_agent_view(request):
         return redirect('list_agents')
     return render(request, 'admin/create_agent.html')
 
+@login_required
+@admin_required
+@role_required(['admin', 'manager'])
 def list_agents_view(request):
     agents = Agent.objects.all()
     return render(request, 'admin/list_agents.html', {'agents': agents})
 
+@login_required
+@admin_required
+@role_required(['admin', 'manager'])
 @csrf_exempt
 def delete_agent_view(request, agent_id):
     if request.method == 'POST':
@@ -304,7 +319,8 @@ def delete_agent_view(request, agent_id):
         except Agent.DoesNotExist:
             pass
         return redirect('list_agents')
-    
+
+@login_required   
 def submit_review(request):
     if request.method == 'POST':
         name = request.POST.get('name')
@@ -312,6 +328,7 @@ def submit_review(request):
         country = request.POST.get('country')
         review_text = request.POST.get('review_text')
         rating = request.POST.get('rating')
+        login_email =request.user.email
         if name and email and country and review_text and rating:
             try:
                 rating = int(rating)
@@ -321,7 +338,8 @@ def submit_review(request):
                         email=email,
                         country=country,
                         review_text=review_text,
-                        rating=rating
+                        rating=rating,
+                        login_email = login_email
                     )
                     return redirect('submit_review')
                 else:
@@ -330,9 +348,9 @@ def submit_review(request):
                 return HttpResponse("Invalid rating. Please enter a number between 1 and 5.")
         else:
             return HttpResponse("All fields are required.")
-
     return redirect('home')
 
+@login_required
 def checkout(request):
     if request.method=="POST":
         items_json = request.POST.get('itemsJson', '')
