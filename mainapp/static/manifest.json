@@ -13,8 +13,8 @@
         "type": "image/png"
       },
       {
-        "src": "images/digipay_icon-1024x500.png",
-        "sizes": "1200x1200",
+        "src": "images/icons/himalayan_logo_144x144.png",
+        "sizes": "144x144",
         "type": "image/jpg"
       }
     ],

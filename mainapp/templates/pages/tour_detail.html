@@ -4,6 +4,17 @@
 {% block title %}Tour - {{ tour.name }} {% endblock title %}  
 {% block body %}
 {% load custom_filters %}
+<style>
+  .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+    color: #fff;
+    background-color: #003c72;
+}
+.nav-pills .nav-link {
+    border-radius: 0.25rem;
+    color: black;
+    background: #cbcdd5;
+}
+</style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.min.js"></script>
 <section class="home-slider owl-carousel">
@@ -117,9 +128,9 @@
                 <div class="mb-3">
                     {% if tour.discount %}
                         <span class="h5 text-muted" style="color: #dc3545; text-decoration: line-through;">₹{{ tour.price|floatformat:0 }}</span>
-                        <span class="ms-2 text-danger" style="font-size: 1.2rem;">(Discount: {{ tour.discount }}%)</span>
+                        <span class="ms-2 text-danger" style="font-size: 1.2rem; color: #4f7a09;">(Discount: {{ tour.discount }}%)</span>
                         <br>
-                        <span class="card-text mt-1" style="font-size: 2rem; font-weight: bold; color: #28a745;">
+                        <span class="card-text mt-1" style="font-size: 2rem; font-weight: bold; color: #003c72;">
                             Offer Price: ₹{{ discounted_price|floatformat:0 }}/-
                         </span>
                     {% else %}
@@ -156,7 +167,7 @@
             <form action="{% url 'payment_page' %}" method="POST">
               {% csrf_token %}
               <input type="text" style="display: none;" name="tour_id" value="{{tour.tour_id}}" >
-              <button type="submit" class="btn btn-warning shadow-0"> Book Now </button>
+              <button type="submit" class="btn btn-warning shadow-0" style="background-color: #003c72; color: whitesmoke; border-radius: 4px; border: 1px solid grey;"> Book Now </button>
             </form>
           </div>
         </main>
@@ -185,7 +196,9 @@
               <div class="tab-pane fade show active" id="ex1-pills-1" role="tabpanel" aria-labelledby="ex1-tab-1">
                 <h5>Tour Description</h5>
                 <p>
-                  {{tour.tour_descr}}
+                  <div class="tour-description">
+                    {{ tour.tour_descr|safe }}
+                </div>
                 </p>
   
                 <table class="table border mt-3 mb-2">
@@ -285,5 +298,8 @@
       </div>
     </div>
   </section>
-  
+  <script src="https://cdn.ckeditor.com/4.16.0/standard/ckeditor.js"></script>
+<script>
+    CKEDITOR.replace('tour_descr');
+</script>
   {% endblock body %}

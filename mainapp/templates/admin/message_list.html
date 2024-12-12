@@ -2,8 +2,9 @@
 {% load static %}
 {% block title %}Messages{% endblock title %}  
 {% block body %}
+<div class="container" style="margin: 8% 2% 2% 2%;">
 <h2>All Messages</h2>
-<table class="table" style="height: 30rem; overflow-y: auto; padding-left: 10px; padding-right: 10px;">
+<table class="table" style="height: 30rem; overflow-y: auto; ">
     <thead>
         <tr>
             <th>Full Name</th>
@@ -32,6 +33,6 @@
         </tr>
         {% endfor %}
     </tbody>
-</table>
+</table></div>
 
   {% endblock body %}

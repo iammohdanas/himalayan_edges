@@ -61,7 +61,7 @@ def discounted_price_fun(tour):
 def handler500(request):
     return render(request, '500.html', status=500)
 
-@login_required(redirect_field_name = 'tours')
+
 def tour_list(request):
     tours = Tour.objects.all()  # Fetch all the tours
     tours_with_details = [
@@ -71,6 +71,7 @@ def tour_list(request):
             "location": tour.location,
             "tour_type": tour.tour_type,
             "tour_descr": tour.tour_descr,
+            "summary":tour.summary,
             "price": tour.price,
             "discount": tour.discount,
             "discounted_price": int(tour.price - (tour.price * (tour.discount / 100)) if tour.discount else tour.price),
@@ -115,6 +116,9 @@ def contactView(request):
 
 def tours(request):
     return render(request,"page.html")
+
+def our_team(request):
+    return render(request, "our_team.html")
 
 def about(request):
     return render(request,"pages/about.html")
@@ -230,7 +234,7 @@ def create_tour(request):
 
 from django.shortcuts import render, get_object_or_404
 
-@login_required
+
 def tour_detail(request, tour_id):
     tour = get_object_or_404(Tour, tour_id=tour_id)
     tour_category = tour.tour_type
@@ -368,3 +372,12 @@ def checkout(request):
         id = order.order_id
         return render(request, 'shop/checkout.html')
     return render(request, 'shop/checkout.html')
+
+def gear_room(request):
+    return render(request, "pages/the_gear_room.html")
+
+def photo_gallery(request):
+    context = {
+        'image_range': range(1, 22)
+    }
+    return render(request, "pages/photo_gallery.html",context)

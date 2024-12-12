@@ -78,6 +78,15 @@
     border-radius: 12px;
     margin-right: 10px;
 }
+a{
+ color: #092844;;
+}
+.text-danger {
+    color: #29a338 !important;
+}
+.ftco-navbar-light .navbar-nav > .nav-item > .nav-link{
+  font-size: 13px;
+}
     </style>
 
 
@@ -87,37 +96,56 @@
     <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
       <div class="container topnavbar">
         <img class="logo-navbar" src="{%static 'images/icons/himalayan_logo.png' %}" alt="">
-        <a class="navbar-brand" href="{% url 'home' %}">Himalayan Edges</a>
+        <a class="navbar-brand d-none d-md-block" href="{% url 'home' %}">Himalayan Edges</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
           <span class="oi oi-menu"></span> Menu
         </button>
 
         <div class="collapse navbar-collapse" id="ftco-nav">
           <ul class="navbar-nav ml-auto">
-            <li class="nav-item {% if url_name == 'home' %} active {%endif%}"><a href="{% url 'home' %}" class="nav-link">Home</a></li>
-            <li class="nav-item {% if url_name == 'tours' %} active {%endif%}"><a href="{% url 'tours' %}" class="nav-link">Tours Packages</a></li>
-            <li class="nav-item {% if url_name == 'contactus' %} active {%endif%}"><a href="{% url 'contactus' %}" class="nav-link">Contact</a></li>
-            <!-- <li class="nav-item "><a href="#" class="nav-link">Packages</a></li> -->
-            <li class="nav-item {% if url_name == 'about' %} active {%endif%}"><a href="{% url 'about' %}" class="nav-link">About</a></li>
-            {% if request.user.is_superuser %}
+              <li class="nav-item {% if url_name == 'home' %} active {%endif%}">
+                  <a href="{% url 'home' %}" class="nav-link">Home</a>
+              </li>
+              <li class="nav-item {% if url_name == 'tours' %} active {%endif%}">
+                  <a href="{% url 'tours' %}" class="nav-link">Tours Packages</a>
+              </li>
+              <li class="nav-item {% if url_name == 'contactus' %} active {%endif%}">
+                  <a href="{% url 'contactus' %}" class="nav-link">Contact</a>
+              </li>
+              <li class="nav-item {% if url_name == 'our_team' %} active {%endif%}">
+                <a href="{% url 'our_team' %}" class="nav-link">Our Team</a>
+              </li>
+              <li class="nav-item {% if url_name == 'gear_room' %} active {%endif%}">
+                <a href="{% url 'gear_room' %}" class="nav-link">The Gear Room</a>
+              </li>
+              <li class="nav-item {% if url_name == 'photo_gallery' %} active {%endif%}">
+                <a href="{% url 'photo_gallery' %}" class="nav-link">Photo Gallery</a>
+              </li>
+              <li class="nav-item {% if url_name == 'about' %} active {%endif%}">
+                  <a href="{% url 'about' %}" class="nav-link">About</a>
+              </li>
+      
+              {% if request.user.is_superuser %}
               <li class="nav-item {% if url_name == 'adminview' %} active {% endif %}">
-                    <a href="{% url 'adminview' %}" class="nav-link">Admin</a>
-                </li>
-            {% endif %}
-              <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="authDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="bi bi-person-circle" style="font-size: 1.5rem;"></i>
-              </a>
-              <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="authDropdown">
-                {% if user.is_authenticated %}
-                  <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
-                {% else %}
-                  <li><a class="dropdown-item" href="{% url 'login' %}">Login</a></li>
-                  <li><a class="dropdown-item" href="{% url 'register' %}">Register</a></li>
-                {% endif %}
-              </ul>
-            </li>
+                  <a href="{% url 'adminview' %}" class="nav-link">Admin</a>
+              </li>
+              {% endif %}
+      
+              {% if user.is_authenticated %}
+                  <li class="nav-item">
+                      <a href="{% url 'logout' %}" class="nav-link">Logout</a>
+                  </li>
+              {% else %}
+                  <li class="nav-item">
+                      <a href="{% url 'login' %}" class="nav-link">Login</a>
+                  </li>
+                  <li class="nav-item">
+                      <a href="{% url 'register' %}" class="nav-link">Register</a>
+                  </li>
+              {% endif %}
           </ul>
+      </div>
+      
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
           </ul>
         </div>
@@ -256,7 +284,7 @@ add_chatinline();</script>
 <script type="text/javascript">
     (function () {
         var options = {
-            whatsapp: "+917017528755", // WhatsApp number
+            whatsapp: "+919906568655", // WhatsApp number
             call_to_action: "Message us", // Call to action
             position: "left", // Position may be 'right' or 'left'
         };

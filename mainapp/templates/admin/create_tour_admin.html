@@ -4,6 +4,7 @@
 Create Tour
 {% endblock title %}
 {% block body %}
+<script src="https://cdn.ckeditor.com/4.20.2/standard/ckeditor.js"></script>
 <div class="container mt-5" style="padding-top:5%; width: 80%;">
     <h2>Create a New Tour</h2>
     <form method="POST" action="{% url 'create_tour' %}" enctype="multipart/form-data">
@@ -42,7 +43,9 @@ Create Tour
 
         <div class="mb-3">
             <label for="tour_descr" class="form-label">Description</label>
-            <textarea class="form-control" id="tour_descr" name="tour_descr" rows="4"></textarea>
+            <textarea class="form-control" id="tour_descr" name="tour_descr">
+                {{ tour.tour_descr|default:'' }}
+            </textarea>
         </div>
 
         <div class="mb-3">
@@ -109,4 +112,8 @@ Create Tour
         <button type="submit" class="btn btn-primary">Create Tour</button>
     </form>
 </div>
+<script src="{% static 'ckeditor/ckeditor.js' %}"></script>
+    <script>
+        CKEDITOR.replace('tour_descr');
+    </script>
 {% endblock body %}

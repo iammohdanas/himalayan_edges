@@ -3,6 +3,7 @@ from django.db import models
 from ckeditor.fields import RichTextField
 from django.contrib.auth.models import User
 from django.urls import reverse
+from ckeditor.fields import RichTextField
 
 tour_list = [
     ('Trekking', "Trekking"),
@@ -88,7 +89,7 @@ class Tour(models.Model):
     location = models.CharField(max_length=100)
     tour_type = models.CharField(choices=TOUR_CHOICES, max_length=20)
     slug = models.SlugField(max_length=250, blank=True, null=True)
-    tour_descr = models.TextField(blank=True, null=True)
+    tour_descr = RichTextField(blank=True, null=True)
     summary = models.TextField(blank=True, null=True)
     popular = models.BooleanField(blank=True, null=True)
     rating = models.CharField(max_length=5, null=True)

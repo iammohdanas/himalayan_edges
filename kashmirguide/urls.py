@@ -39,5 +39,8 @@ urlpatterns = [
     path('agents-list/', views.list_agents_view, name='list_agents'),
     path('delete/<int:agent_id>/', views.delete_agent_view, name='delete_agent'),
     path('submit-review/', views.submit_review, name='submit_review'),
+    path('our-team/', views.our_team, name='our_team'),
+    path('the-gear-room/', views.gear_room, name='gear_room'),
+    path('photo-gallery/', views.photo_gallery, name='photo_gallery'),
     path('', include('authenticator.urls')),
 ]
