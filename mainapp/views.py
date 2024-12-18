@@ -36,7 +36,7 @@ def index(request):
             "tour_type": tour.tour_type,
             "tour_descr": tour.tour_descr,
             "price": tour.price,
-            "discount": tour.discount,
+            "discount": str(int(tour.discount)),
             "discounted_price": int(tour.price - (tour.price * (tour.discount / 100)) if tour.discount else tour.price),
             "image": tour.image,
             "popular": tour.popular,
