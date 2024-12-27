@@ -45,3 +45,7 @@ urlpatterns = [
     path('photo-gallery/', views.photo_gallery, name='photo_gallery'),
     path('', include('authenticator.urls')),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
