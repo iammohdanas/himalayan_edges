@@ -33,8 +33,12 @@ Tours
               {% for tour in tours %}
                   <div class="row mb-3">
                       <div class="col-md-3">
-                          <img src="{% static 'images/tours_img/' %}{{ tour.image.url }}" style="max-height: 250px;" class="img-fluid rounded-start" alt="{{ tour.name }}">
-                      </div>
+                        <img 
+                        src="data:image/jpeg;base64,{{ tour.image }}" 
+                        style="height: 90%; width: 100%; border-radius: 5px;" 
+                        class="img-fluid rounded-start" 
+                        alt="{{ tour.name }}">
+                                          </div>
                       <div class="col-md-9">
                           <div class="card mb-3 shadow-sm">
                               <div class="card-body">

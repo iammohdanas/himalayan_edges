@@ -1,3 +1,4 @@
+import base64
 from datetime import datetime
 import random
 import string
@@ -184,12 +185,17 @@ def create_tour(request):
 
             tour_id = generate_tour_id()
 
-            fs = FileSystemStorage(location='mainapp/static/images/tours_img')
-            image_name = fs.save(f"{tour_id}_{image.name}", image) if image else None
-            image1_name = fs.save(f"{tour_id}_{image1.name}", image1) if image1 else None
-            image2_name = fs.save(f"{tour_id}_{image2.name}", image2) if image2 else None
-            image3_name = fs.save(f"{tour_id}_{image3.name}", image3) if image3 else None
-            image4_name = fs.save(f"{tour_id}_{image4.name}", image4) if image4 else None
+            # Convert images to Base64 strings
+            def convert_to_base64(file):
+                if file:
+                    return base64.b64encode(file.read()).decode('utf-8')
+                return None
+
+            image_base64 = convert_to_base64(image)
+            image1_base64 = convert_to_base64(image1)
+            image2_base64 = convert_to_base64(image2)
+            image3_base64 = convert_to_base64(image3)
+            image4_base64 = convert_to_base64(image4)
 
             # Check if the selected agent exists
             agent = Agent.objects.get(id=agent_id)
@@ -209,17 +215,16 @@ def create_tour(request):
                 popular=popular,
                 rating=rating,
                 tourdays=daysnights,
-                video_link = videolink,
+                video_link=videolink,
                 price=price,
                 discount=discount,
                 slug=slugify(name),
-                image=image_name,
-                image1=image1_name,
-                image2=image2_name,
-                image3=image3_name,
-                image4=image4_name,
+                image=image_base64,
+                image1=image1_base64,
+                image2=image2_base64,
+                image3=image3_base64,
+                image4=image4_base64,
             )
-            
             # Save the tour
             tour.save()
 
@@ -231,7 +236,6 @@ def create_tour(request):
 
     agents = Agent.objects.all()
     return render(request, 'admin/create_tour_admin.html', {'agents': agents})
-
 from django.shortcuts import render, get_object_or_404
 
 

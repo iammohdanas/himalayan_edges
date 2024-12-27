@@ -25,51 +25,49 @@
     color: #003c72;
 } */
     </style>
-    <section class="home-slider owl-carousel">
-      <div class="slider-item" style="background-image: url('{% static 'images/bg_3.jpg' %}');overflow: scroll;">
+   <section class="home-slider owl-carousel">
+    <div class="slider-item" style="background-image: url('{% static 'images/bg_3.jpg' %}'); overflow: hidden;">
         <div class="overlay"></div>
         <div class="container">
-          <div class="row slider-text align-items-center">
-            <div class="col-md-7 col-sm-12 ftco-animate">
-              <h1 class="mb-3">Travel Operator Just For You</h1>
+            <div class="row slider-text align-items-center">
+                <div class="col-md-7 col-sm-12 ftco-animate">
+                    <h1 class="mb-3">Travel Operator Just For You</h1>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
-      <div class="slider-item" style="background-image: url('{% static 'images/grass_mountain.jpg' %}');">
+    </div>
+    <div class="slider-item" style="background-image: url('{% static 'images/grass_mountain.jpg' %}'); overflow: hidden;">
         <div class="overlay"></div>
         <div class="container">
-          <div class="row slider-text align-items-center">
-            <div class="col-md-7 col-sm-12 ftco-animate">
-              <h1 class="mb-3">Discover the Heart of Kashmir</h1>
+            <div class="row slider-text align-items-center">
+                <div class="col-md-7 col-sm-12 ftco-animate">
+                    <h1 class="mb-3">Discover the Heart of Kashmir</h1>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
-      <div class="slider-item" style="background-image: url('{% static 'images/grass_mountain2.jpg' %}');">
+    </div>
+    <div class="slider-item" style="background-image: url('{% static 'images/grass_mountain2.jpg' %}'); overflow: hidden;">
         <div class="overlay"></div>
         <div class="container">
-          <div class="row slider-text align-items-center">
-            <div class="col-md-7 col-sm-12 ftco-animate">
-              <h1 class="mb-3">Journey Through Kashmir’s Timeless Beauty</h1>
+            <div class="row slider-text align-items-center">
+                <div class="col-md-7 col-sm-12 ftco-animate">
+                    <h1 class="mb-3">Journey Through Kashmir’s Timeless Beauty</h1>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
-      <div class="slider-item" style="background-image: url('{% static 'images/mountain.jpg' %}');overflow: scroll">
+    </div>
+    <div class="slider-item" style="background-image: url('{% static 'images/mountain.jpg' %}'); overflow: hidden;">
         <div class="overlay"></div>
         <div class="container">
-          <div class="row slider-text align-items-center">
-            <div class="col-md-7 col-sm-12 ftco-animate">
-              <h1 class="mb-3">Experience the best trip ever
-                               </h1>
+            <div class="row slider-text align-items-center">
+                <div class="col-md-7 col-sm-12 ftco-animate">
+                    <h1 class="mb-3">Experience the best trip ever</h1>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
+    </div>
+</section>
 
-      
-    </section>
     <!-- END slider -->
     {% include '_sys_notifications.html' %}
     <section class="ftco-section testimony-section" style="margin-bottom: 0px;">
@@ -84,8 +82,12 @@
           <div class="col-md-6 col-lg-4 mb-4 d-flex align-items-stretch">
               <div class="card h-100 shadow-sm border-0">
                   <!-- Large image at the top of the card -->
-                  <img class="card-img-top img-fluid" src="{% static 'images/tours_img/' %}{{ tour.image.url }}" alt="{{ tour.name }}" style="max-height: 250px; object-fit: cover; margin: 20px;">
-      
+                  <img 
+                  class="card-img-top img-fluid" 
+                  src="data:image/jpeg;base64,{{ tour.image }}" 
+                  alt="{{ tour.name }}" 
+                  style="max-height: 250px; object-fit: cover; margin: 20px;">
+                    
                   <div class="card-body">
                       <!-- Discount badge -->
                       {% if tour.discount %}

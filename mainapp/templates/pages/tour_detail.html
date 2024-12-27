@@ -19,7 +19,7 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.min.js"></script>
 <section class="home-slider owl-carousel">
   {% if tour.image %}
-  <div class="slider-item" style="background-image: url('{% static 'images/tours_img/' %}{{ tour.image.url }}');">
+  <div class="slider-item" style="background-image: url('data:image/jpeg;base64,{{ tour.image }}');">
     <div class="overlay"></div>
     <div class="container">
       <div class="row slider-text align-items-center">
@@ -32,7 +32,7 @@
   {% endif %}
 
   {% if tour.image1 %}
-  <div class="slider-item" style="background-image: url('{% static 'images/tours_img/' %}{{ tour.image1.url }}');">
+  <div class="slider-item" style="background-image: url('data:image/jpeg;base64,{{ tour.image1 }}');">
     <div class="overlay"></div>
     <div class="container">
       <div class="row slider-text align-items-center">
@@ -45,7 +45,7 @@
   {% endif %}
 
   {% if tour.image2 %}
-  <div class="slider-item" style="background-image: url('{% static 'images/tours_img/' %}{{ tour.image2.url }}');">
+  <div class="slider-item" style="background-image: url('data:image/jpeg;base64,{{ tour.image2 }}');">
     <div class="overlay"></div>
     <div class="container">
       <div class="row slider-text align-items-center">
@@ -58,7 +58,7 @@
   {% endif %}
 
   {% if tour.image3 %}
-  <div class="slider-item" style="background-image: url('{% static 'images/tours_img/' %}{{ tour.image3.url }}');">
+  <div class="slider-item" style="background-image: url('data:image/jpeg;base64,{{ tour.image3 }}');">
     <div class="overlay"></div>
     <div class="container">
       <div class="row slider-text align-items-center">
@@ -71,7 +71,7 @@
   {% endif %}
 
   {% if tour.image4 %}
-  <div class="slider-item" style="background-image: url('{% static 'images/tours_img/' %}{{ tour.image4.url }}');">
+  <div class="slider-item" style="background-image: url('data:image/jpeg;base64,{{ tour.image4 }}');">
     <div class="overlay"></div>
     <div class="container">
       <div class="row slider-text align-items-center">
@@ -83,6 +83,7 @@
   </div>
   {% endif %}
 </section>
+
 <section class="py-5" style="padding-top: 2%; margin-top: 2%;">
     <div class="container">
         <!-- <aside class="col-lg-6">
@@ -222,7 +223,7 @@
               </div>
   
               <!-- Agent Details Tab -->
-              <div class="tab-pane fade mb-2" id="ex1-pills-2" role="tabpanel" aria-labelledby="ex1-tab-2">
+              <!-- <div class="tab-pane fade mb-2" id="ex1-pills-2" role="tabpanel" aria-labelledby="ex1-tab-2">
                 <h5>Agent Information</h5>
                 <p>
                   For inquiries about this tour, please contact our agent:
@@ -236,7 +237,7 @@
                 <p>
                   Our agents are here to ensure your travel experience is as smooth and enjoyable as possible.
                 </p>
-              </div>
+              </div> -->
             </div>
             <div class="tab-content" id="ex1-content">
               <!-- Tour Description Tab -->
@@ -279,8 +280,11 @@
                 {% for tour in tours %}
                 <div class="d-flex mb-3">
                   <a href="{% url 'tour_detail' tour.tour_id %}" class="me-3">
-                    <img src="{% static 'images/tours_img/' %}{{ tour.image.url }}" style="min-width: 96px; height: 96px;" class="img-md img-thumbnail" />
-                  </a>
+                    <img 
+                    src="data:image/jpeg;base64,{{ tour.image }}" 
+                    style="min-width: 96px; height: 96px;" 
+                    class="img-md img-thumbnail" />
+                                  </a>
                   <div class="info">
                     <a href="#" class="nav-link mb-1">
                       {{ tour.name }}

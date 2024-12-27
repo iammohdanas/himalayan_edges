@@ -78,11 +78,11 @@ class Tour(models.Model):
     ]
     
     tour_id = models.CharField(max_length=12, null=True)
-    image = models.ImageField(upload_to='static/images/tours_img')
-    image1 = models.ImageField(upload_to='static/images/tours_img', null=True)
-    image2 = models.ImageField(upload_to='static/images/tours_img', null=True)
-    image3 = models.ImageField(upload_to='static/images/tours_img', null=True)
-    image4 = models.ImageField(upload_to='static/images/tours_img', null=True)
+    image = models.TextField(null=True, blank=True)  # Store Base64 string
+    image1 = models.TextField(null=True, blank=True)  # Store Base64 string
+    image2 = models.TextField(null=True, blank=True)  # Store Base64 string
+    image3 = models.TextField(null=True, blank=True)  # Store Base64 string
+    image4 = models.TextField(null=True, blank=True)
     name = models.CharField(max_length=100)
     agent_name = models.CharField(max_length=100,null=True)
     video_link = models.CharField(max_length=200, null=True)
