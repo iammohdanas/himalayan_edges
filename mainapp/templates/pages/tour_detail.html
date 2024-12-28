@@ -14,6 +14,15 @@
     color: black;
     background: #cbcdd5;
 }
+.ckeditor-content img {
+    max-width: 100%; /* Prevent image overflow */
+    height: auto; /* Maintain aspect ratio */
+    display: block; /* Remove inline image gaps */
+}
+.ckeditor-content {
+    word-wrap: break-word; /* Prevent content overflow */
+}
+
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.min.js"></script>
@@ -196,11 +205,9 @@
               <!-- Tour Description Tab -->
               <div class="tab-pane fade show active" id="ex1-pills-1" role="tabpanel" aria-labelledby="ex1-tab-1">
                 <h5>Tour Description</h5>
-                <p>
-                  <div class="tour-description">
-                    {{ tour.tour_descr|safe }}
+                <div class="tour-description ckeditor-content">
+                  {{ tour.tour_descr|safe }}
                 </div>
-                </p>
   
                 <table class="table border mt-3 mb-2">
                   <tr>
