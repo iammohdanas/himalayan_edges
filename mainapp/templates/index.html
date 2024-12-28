@@ -112,7 +112,7 @@
                       <!-- Tour description, truncated if needed -->
                       <p class="card-text text-muted mb-3">
                           <strong>Description:</strong> 
-                          <span class="short-desc">{{ tour.tour_descr|slice:":100" }}{% if tour.tour_descr|length > 100 %}...{% endif %}</span>
+                          <span class="short-desc">{{ tour.summary|slice:":100" }}{% if tour.summary|length > 100 %}...{% endif %}</span>
                           {% if tour.tour_descr|length > 100 %}
                           <a href="#" class="read-more text-primary" style="color: #003c72;" data-full-desc="{{ tour.tour_descr }}">Read More</a>
                           {% endif %}

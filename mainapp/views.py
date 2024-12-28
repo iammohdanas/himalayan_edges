@@ -41,6 +41,7 @@ def index(request):
             "discounted_price": int(tour.price - (tour.price * (tour.discount / 100)) if tour.discount else tour.price),
             "image": tour.image,
             "popular": tour.popular,
+            "summary": tour.summary
         }
         for tour in tours
     ]
