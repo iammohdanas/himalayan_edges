@@ -5,6 +5,7 @@ import string
 from urllib import request
 from django.shortcuts import redirect, render
 from django.core.mail import send_mail, BadHeaderError
+import requests
 from authenticator.decorators import admin_required, role_required
 from kashmirguide import settings
 from mainapp.filters import TourFilter
@@ -29,6 +30,8 @@ def index(request):
     posts = Post.objects.all().order_by('-publish')[:4]
     tours = Tour.objects.filter(tour_type="featured").order_by('name')[:3]
     reviews = Review.objects.all().order_by('-created_at')
+    google_reviews = get_google_reviews("ChIJnzlcwPOv4TgRwfAk9LPFUXg")
+
     tours_with_discounts = [
         {
             "tour_id": tour.tour_id,
@@ -48,7 +51,8 @@ def index(request):
     context = {
         'posts': posts,
         'tours': tours_with_discounts,
-        'reviews': reviews
+        'reviews': reviews,
+        'google_reviews': google_reviews
     }
     return render(request, 'index.html', context)
 
@@ -281,15 +285,32 @@ def mark_as_seen(request, message_id):
 #     """
 #     Fetches Google reviews for a specific place using its Place ID.
 #     """
-#     google_places_url = (
-#         f"https://maps.googleapis.com/maps/api/place/details/json?place_id={place_id}&key={settings.GOOGLE_API_KEY}"
-#     )
-#     response = request.get(google_places_url)
+#     # pid_himalayan = "ChIJnzlcwPOv4TgRwfAk9LPFUXg"
+#     url = f"https://mybusiness.googleapis.com/v4/accounts/{"location_id"}/reviews"
+#     params = {"key": "AIzaSyDwUxAYo298fmazR4GsiFmU_Wr_VHpTYCQ"}
+    
+#     response = requests.get(url, params=params)
 #     if response.status_code == 200:
-#         place_details = response.json()
-#         if 'result' in place_details and 'reviews' in place_details['result']:
-#             return place_details['result']['reviews']
-#     return None
+#         return response.json()  # Reviews data
+#     else:
+#         return {"error": response.text}
+
+
+def get_google_reviews( place_id):
+    api_key = "AIzaSyAqx1vDs0vqabrN9qRLXBBc0DKdRG1GjU8"
+    url = f"https://maps.googleapis.com/maps/api/place/details/json"
+    params = {
+        "place_id": place_id,
+        "fields": "reviews",
+        "key": api_key
+    }
+    response = requests.get(url, params=params)
+    if response.status_code == 200:
+        data = response.json()
+        reviews = data.get("result", {}).get("reviews", [])
+        return reviews
+    else:
+        return JsonResponse({"error": "Failed to fetch reviews"}, status=response.status_code)
 
 @login_required
 def payment_page(request):

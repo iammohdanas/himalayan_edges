@@ -11,6 +11,7 @@
       }
       .ftco-section{
         padding-bottom: 5px;
+        padding-top: 3rem;
       }
       .testimony-wrap .star-rate span{
         color: #003c72;
@@ -70,9 +71,17 @@
 
     <!-- END slider -->
     {% include '_sys_notifications.html' %}
-    <section class="ftco-section testimony-section" style="margin-bottom: 0px;">
+    <section class="ftco-section testimony-section" style="margin-bottom: 0px; padding-bottom: 0%; margin-top: 2%; padding-top: 2%;">
+      <div style="padding-top:1%;">
+        <div class="container justify-content">
+          <h3>Himalayan Edges: Your Gateway to Adventure in the Himalayas</h3>
+          <p style="font-size: larger;">Welcome to Himalayan Edges, your premier specialists in privately guided backcountry ski trips, mountain treks, alpine lake treks, off-roading adventures, and more in the majestic Himalayas. Located in the heart of the Pir Panjal range, we are dedicated to crafting unforgettable experiences that combine the thrill of adventure with the serene beauty of this iconic region</p>
+        </div>
+      </div>
+    </section>
+    <section class="ftco-section testimony-section" style="margin-bottom: 0px; margin-top: 0%;">
       <div class="container" style="max-width: 90%;">
-        <div class="row justify-content-center mb-5 pb-5">
+        <div class="row justify-content-center mb-2 pb-2">
           <div class="col-md-7 text-center heading-section ftco-animate">
             <h2 style="font-weight: 700; color: #2c3e50;">Top Selling Tours in Kashmir</h2>
           </div>
@@ -159,14 +168,14 @@
 
 
     
+    
 
-
-  <div style="padding-top:2%;">
+  <div style="padding-top:1%;">
     <div class="container">
 
     <h3>How to book?</h3>
     <p><b>
-            <p>For bookings please visit our <a href="{% url 'tours' %}"><i><u>Tours</u></i></a> page and book your advemture with us.</p>
+            <p>For bookings please visit our <a href="{% url 'tours' %}"><i><u>Tours</u></i></a> page and book your adventure with us.</p>
             <p>Other than the the tour packages mentioned in our page, we can also customize packages based on the customer requirement and budget. In case of any clarifications, you can get in touch with us on our email or whatsapp for any query, information or negotiations of prices.</p></b></p>
             <p>We only communicate with our customers via our email <b><u>info@himalayanedges.com, our online support or whatsapp support.</u></b></p>
       </div>
@@ -211,7 +220,7 @@
 
     <section class="ftco-section bg-light">
       <div class="container" style="max-width: 100%;">
-        <div class="row justify-content-center mb-5 pb-5">
+        <div class="row justify-content-center mb-2 pb-2">
           <div class="col-md-7 text-center heading-section ftco-animate">
             <h2>Our Services</h2>
           </div>
@@ -258,10 +267,48 @@
       </div>
     </section>
 
+    <section class="ftco-section testimony-section">
+      <div class="container">
+        <div class="row justify-content-center mb-2 pb-2">
+          <div class="col-md-7 text-center heading-section ftco-animate">
+            <h2>Google Reviews</h2>
+          </div>
+        </div>
+        
+        <div class="row ftco-animate">
+          <div class="carousel owl-carousel ftco-owl">
+            {% for review in google_reviews %}
+              <div class="item text-center">
+                <div class="testimony-wrap p-4 pb-5" style="min-height: 24rem;">
+                  <!-- Placeholder for user image -->
+                  <div class="user-img mb-4" style="background-image: url({{ review.profile_photo_url }}); border: none;"></div>
+                  <div class="text">
+                    <!-- Display star rating dynamically -->
+                    <p class="star-rate">
+                      {% for i in "12345" %}
+                        {% if forloop.counter <= review.rating %}
+                          <span class="icon-star"></span>
+                        {% else %}
+                          <span class="icon-star-o"></span>
+                        {% endif %}
+                      {% endfor %}
+                    </p>
+                    <p class="mb-5">{{ review.text|truncatewords:20 }} <a href="{{ review.author_url }}"> &nbsp; view more</a></p>
+                    <p class="name">{{ review.author_name }}</p>
+                    <span class="position" style="font-weight: 500; color: #06090c;">{{ review.relative_time_description }}</span>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+
+          </div>
+        </div>  
+      </div>
+    </section>
 
     <section class="ftco-section testimony-section">
       <div class="container">
-        <div class="row justify-content-center mb-5 pb-5">
+        <div class="row justify-content-center mb-2 pb-2">
           <div class="col-md-7 text-center heading-section ftco-animate">
             <h2>Our Satisfied Guests says</h2>
           </div>
@@ -363,10 +410,9 @@
         </div>  
       </div>
     </section>
-
     <section class="ftco-section review-section">
       <div class="container">
-        <div class="row justify-content-center mb-5 pb-5">
+        <div class="row justify-content-center mb-2 pb-2">
           <div class="col-md-7 text-center heading-section ftco-animate">
             <h2>Share Your Experience</h2>
           </div>
@@ -400,7 +446,20 @@
         </div>  
       </div>
     </section>
-        
+    <section class="ftco-section review-section" >
+      <div class="container">
+        <div class="row justify-content-center mb-1 pb-1">
+          <div class="col-md-7 text-center heading-section ftco-animate">
+            <h2>Our Location</h2>
+          </div>
+        </div>
+        <div class="row ftco-animate">
+          <div class="col-md-12">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d14114.192589926276!2d74.3955541!3d34.0518324!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39a014a1a4f7fdfd%3A0x9f26360e0a77c302!2sLocation!5e0!3m2!1sen!2sin!4v1676961268712!5m2!1sen!2sin" frameborder="0" style="border:0; width: 100%; height: 270px;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+          </div>
+        </div>  
+      </div>
+    </section>
 
 
 

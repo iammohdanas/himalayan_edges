@@ -106,25 +106,24 @@ a{
               <li class="nav-item {% if url_name == 'home' %} active {%endif%}">
                   <a href="{% url 'home' %}" class="nav-link">Home</a>
               </li>
+              <li class="nav-item {% if url_name == 'about' %} active {%endif%}">
+                <a href="{% url 'about' %}" class="nav-link">About</a>
+              </li>
               <li class="nav-item {% if url_name == 'tours' %} active {%endif%}">
                   <a href="{% url 'tours' %}" class="nav-link">Tours Packages</a>
-              </li>
-              <li class="nav-item {% if url_name == 'contactus' %} active {%endif%}">
-                  <a href="{% url 'contactus' %}" class="nav-link">Contact</a>
-              </li>
-              <li class="nav-item {% if url_name == 'our_team' %} active {%endif%}">
-                <a href="{% url 'our_team' %}" class="nav-link">Our Team</a>
               </li>
               <li class="nav-item {% if url_name == 'gear_room' %} active {%endif%}">
                 <a href="{% url 'gear_room' %}" class="nav-link">The Gear Room</a>
               </li>
+              <li class="nav-item {% if url_name == 'our_team' %} active {%endif%}">
+                <a href="{% url 'our_team' %}" class="nav-link">Our Team</a>
+              </li>
               <li class="nav-item {% if url_name == 'photo_gallery' %} active {%endif%}">
                 <a href="{% url 'photo_gallery' %}" class="nav-link">Photo Gallery</a>
               </li>
-              <li class="nav-item {% if url_name == 'about' %} active {%endif%}">
-                  <a href="{% url 'about' %}" class="nav-link">About</a>
+              <li class="nav-item {% if url_name == 'contactus' %} active {%endif%}">
+                <a href="{% url 'contactus' %}" class="nav-link">Contact</a>
               </li>
-      
               {% if request.user.is_superuser %}
               <li class="nav-item {% if url_name == 'adminview' %} active {% endif %}">
                   <a href="{% url 'adminview' %}" class="nav-link">Admin</a>
