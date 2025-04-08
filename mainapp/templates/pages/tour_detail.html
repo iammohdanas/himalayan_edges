@@ -187,7 +187,7 @@
   <section class="bg-light border-top py-4">
     <div class="container">
       <div class="row gx-4">
-        <div class="col-lg-8 mb-4">
+        <div class="col-lg-12 mb-4">
           <div class="border rounded-2 px-3 py-2 bg-white">
             <!-- Pills navs -->
             <ul class="nav nav-pills nav-justified mb-3" id="ex1" role="tablist">
@@ -278,34 +278,48 @@
           </div>
         </div>
   
-        <div class="col-lg-4">
-          <div class="px-0 border rounded-2 shadow-0">
-            <div class="card">
-              <div class="card-body" style="height: 500px; overflow-y: auto;"> <!-- Set a height and overflow -->
-                <h5 class="card-title">Similar items</h5>
+       
   
-                {% for tour in tours %}
-                <div class="d-flex mb-3">
-                  <a href="{% url 'tour_detail' tour.tour_id %}" class="me-3">
-                    <img 
-                    src="data:image/jpeg;base64,{{ tour.image }}" 
-                    style="min-width: 96px; height: 96px;" 
-                    class="img-md img-thumbnail" />
-                                  </a>
-                  <div class="info">
-                    <a href="#" class="nav-link mb-1">
-                      {{ tour.name }}
-                    </a>
-                    <strong class="text-dark"> &nbsp; ₹{{ tour.price }}</strong>
-                  </div>
+      </div>
+    </div>
+  </section>
+  <section class="ftco-section testimony-section">
+    <div class="container">
+      <div class="row justify-content-center mb-2 pb-2">
+        <div class="col-md-7 text-center heading-section ftco-animate">
+          <h2>Similar Items</h2>
+        </div>
+      </div>
+
+
+
+      <div class="col-lg-12 ftco-animate">
+        <div class="carousel owl-carousel ftco-owl">
+          {% for tour in tours %}
+            <div class="item text-center">
+              <div class="testimony-wrap p-4 pb-5" style="min-height: 26rem;">
+                <div class="user-img mb-4" 
+                     style="background-image: url('data:image/jpeg;base64,{{ tour.image }}'); 
+                            background-size: cover; 
+                            background-position: center; 
+                            height: 120px; 
+                            width: 120px; 
+                            border-radius: 50%; 
+                            margin: 0 auto;">
                 </div>
-                {% endfor %}
-  
+                <div class="text">
+                  <p class="mb-3">
+                    <a href="{% url 'tour_detail' tour.tour_id %}" class="nav-link">
+                      <strong>{{ tour.name }}</strong>
+                    </a>
+                  </p>
+                  <p class="text-dark" style="font-size: 1.1rem;">₹{{ tour.price }}</p>
+                  <a href="{% url 'tour_detail' tour.tour_id %}" class="btn btn-primary mt-2">View Details</a>
+                </div>
               </div>
             </div>
-          </div>
+          {% endfor %}
         </div>
-  
       </div>
     </div>
   </section>
