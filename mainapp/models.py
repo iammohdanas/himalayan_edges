@@ -93,7 +93,7 @@ class Tour(models.Model):
     summary = models.TextField(blank=True, null=True)
     popular = models.BooleanField(blank=True, null=True)
     rating = models.CharField(max_length=5, null=True)
-    tourdays = models.CharField(max_length=2,null=True)
+    tourdays = models.CharField(max_length=20,null=True)
     price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     discount = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
     agent_name = models.ForeignKey(Agent, on_delete=models.CASCADE, null=True)
