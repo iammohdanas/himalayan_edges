@@ -163,6 +163,11 @@ a {
     .media-1 img {
     border-radius: 20px;
 }
+.feature-img-bg {
+  background-size: cover;
+  background-position: center center;
+  min-height: 250px; /* Ensures visibility on mobile */
+}
     </style>
    <section class="home-slider owl-carousel">
     <div class="slider-item" style="background-image: url('{% static 'images/bg_3.jpg' %}'); overflow: hidden;">
@@ -367,7 +372,7 @@ a {
           </div>
         </div>
         <div class="row align-items-stretch">
-          <div class="col-lg-4 order-lg-1">
+          <div class="col-12 col-sm-6 col-lg-4 order-lg-1 mb-4 mb-lg-0">
             <div class="h-100"><div class="frame h-100"><div class="feature-img-bg h-100" style="background-image: url({% static 'images/hero-slider-1.jpg' %});"></div></div></div>
           </div>
   
